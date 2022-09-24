@@ -73,7 +73,7 @@ public class RacketController : MonoBehaviour
             //ラケットを振る
             .OnComplete(() => transform.DOLocalMoveX(GameData.instance.SwingLength, GameData.instance.SwingTime))
 
-            //ラケットを振っていない状態に切り替える
-            .OnComplete(() => isIdle = true);
+            //ラケットを基本状態に戻す
+            .OnComplete(() => SetNormalCondition());
     }
 }
