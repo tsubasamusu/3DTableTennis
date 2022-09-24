@@ -24,4 +24,28 @@ public class GameData : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    [SerializeField,Header("ラケットを構えるのに要する時間")]
+    private float prepareRacketTime;//ラケットを構えるのに要する時間
+
+    [SerializeField,Header("ラケットを振る距離")]
+    private float swingLength;//ラケットを振る距離
+
+    [SerializeField,Header("ラケットを振る時間")]
+    private float swingTime;//ラケットを振る時間
+
+    /// <summary>
+    /// 「ラケットを構えるのに要する時間」の取得用
+    /// </summary>
+    public float PrepareRacketTime { get => prepareRacketTime; }
+
+    /// <summary>
+    /// 「ラケットを振る距離」の取得用
+    /// </summary>
+    public float SwingLength { get => swingLength; }
+
+    /// <summary>
+    /// 「ラケットを振る時間」の取得用
+    /// </summary>
+    public float SwingTime { get => swingTime; }
 }
