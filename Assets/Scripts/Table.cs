@@ -13,11 +13,6 @@ public class Table : MonoBehaviour
     /// <param name="other">接触相手</param>
     private void OnTriggerEnter(Collider other)
     {
-        //接触相手がボールなら
-        if (other.TryGetComponent(out BallController ballController))
-        {
-            //ボールが跳ねた状態に切り替える
-            ballController.IsBounded = true;
-        }
+
     }
 }

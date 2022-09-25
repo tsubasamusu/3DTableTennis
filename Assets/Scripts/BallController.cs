@@ -16,21 +16,13 @@ public class BallController : MonoBehaviour
 
     private bool isPlayerTurn;//プレーヤーのターンかどうか
 
-    private bool isBounded;//台上で跳ねたかどうか
-
-    /// <summary>
-    /// 「台上で跳ねたかどうか」の設定用
-    /// </summary>
-    public bool IsBounded { set=>isBounded=value; }
-
     /// <summary>
     /// ボールを打つ
     /// </summary>
     /// <param name="direction">打つ方向</param>
     public void ShotBall(Vector3 direction)
     {
-        //まだ跳ねていない状態に切り替える
-        isBounded = false;
+
     }
 
     /// <summary>
@@ -44,14 +36,21 @@ public class BallController : MonoBehaviour
         Vector3 boundPos = isPlayerTurn ? playerBoundTran.position : enemyBoundTran.position;
 
         //跳ねる位置との距離を取得
-        float length = (Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f))- Vector3.Scale(boundPos, new Vector3(1f, 0f, 1f))).magnitude;
+        float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f))- Vector3.Scale(boundPos, new Vector3(1f, 0f, 1f))).magnitude);
+
+        //コートに入らず、一定以下の低さになったら
+        if(!inCourt&&transform.position.y<=0.8f)
+        {
+            //距離を負にする（落下させる）
+            length *= -1f;
+        }
 
         //適切なy座標を返す
-        return-(0.75f/25f)*(length - 5f)*(length - 5f) + 1.5f;
+        return -(0.75f / 25f) * (length - 5f) * (length - 5f) + 1.5f;
     }
 
     private void Update()
     {
-        transform.position = new Vector3(transform.position.x,GetAppropriatePosY(true),transform.position.z);
+        transform.position = new Vector3(transform.position.x,GetAppropriatePosY(false),transform.position.z);
     }
 }

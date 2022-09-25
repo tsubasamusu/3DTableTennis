@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 7823266}
   - component: {fileID: 7823265}
   - component: {fileID: 7823264}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 111411240}
   - component: {fileID: 111411239}
   - component: {fileID: 111411238}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,7 +442,7 @@ GameObject:
   - component: {fileID: 275794423}
   - component: {fileID: 275794422}
   - component: {fileID: 275794421}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Net
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 277853137}
   - component: {fileID: 277853139}
   - component: {fileID: 277853138}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rubber_F
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -622,7 +622,7 @@ GameObject:
   - component: {fileID: 303054710}
   - component: {fileID: 303054709}
   - component: {fileID: 303054711}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemyRacket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -698,7 +698,7 @@ GameObject:
   - component: {fileID: 365878234}
   - component: {fileID: 365878236}
   - component: {fileID: 365878235}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rubber_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -782,7 +782,7 @@ GameObject:
   - component: {fileID: 560027978}
   - component: {fileID: 560027977}
   - component: {fileID: 560027976}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -876,7 +876,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 581154639}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1053,7 +1053,7 @@ GameObject:
   - component: {fileID: 659193708}
   - component: {fileID: 659193707}
   - component: {fileID: 659193706}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1226,7 +1226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 705507995}
   - component: {fileID: 705507994}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1319,7 +1319,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 810429228}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Racket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1609,7 +1609,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1012365610}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MovePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1642,7 +1642,7 @@ GameObject:
   - component: {fileID: 1025975250}
   - component: {fileID: 1025975252}
   - component: {fileID: 1025975251}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Grip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1725,7 +1725,7 @@ GameObject:
   - component: {fileID: 1049973334}
   - component: {fileID: 1049973336}
   - component: {fileID: 1049973335}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1808,7 +1808,7 @@ GameObject:
   - component: {fileID: 1059528647}
   - component: {fileID: 1059528649}
   - component: {fileID: 1059528648}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rubber_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1892,7 +1892,7 @@ GameObject:
   - component: {fileID: 1073867628}
   - component: {fileID: 1073867627}
   - component: {fileID: 1073867629}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TableTennisTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1970,7 +1970,7 @@ GameObject:
   - component: {fileID: 1074917844}
   - component: {fileID: 1074917843}
   - component: {fileID: 1074917842}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2064,7 +2064,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1097002978}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Racket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2098,7 +2098,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1124095354}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2132,7 +2132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1132443203}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MovePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2166,7 +2166,7 @@ GameObject:
   - component: {fileID: 1176529306}
   - component: {fileID: 1176529305}
   - component: {fileID: 1176529304}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2438,7 +2438,7 @@ GameObject:
   - component: {fileID: 1289152547}
   - component: {fileID: 1289152546}
   - component: {fileID: 1289152548}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2502,7 +2502,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1319756513}
   - component: {fileID: 1319756512}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2556,7 +2556,7 @@ GameObject:
   - component: {fileID: 1339823277}
   - component: {fileID: 1339823276}
   - component: {fileID: 1339823275}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2825,7 +2825,7 @@ GameObject:
   - component: {fileID: 1532931627}
   - component: {fileID: 1532931626}
   - component: {fileID: 1532931625}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2920,8 +2920,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1675863470}
+  - component: {fileID: 1675863471}
   m_Layer: 0
-  m_Name: BoundPos_Player
+  m_Name: BoundPoint_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2942,6 +2943,19 @@ Transform:
   m_Father: {fileID: 1073867626}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1675863471
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675863469}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.5, z: 1.5}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!1 &1701212433
 GameObject:
   m_ObjectHideFlags: 0
@@ -2983,7 +2997,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1857139660}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3021,7 +3035,7 @@ GameObject:
   - component: {fileID: 1870081463}
   - component: {fileID: 1870081462}
   - component: {fileID: 1870081464}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlayerRacket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3097,7 +3111,7 @@ GameObject:
   - component: {fileID: 2016603012}
   - component: {fileID: 2016603014}
   - component: {fileID: 2016603013}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rubber_F
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3178,8 +3192,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2034919527}
+  - component: {fileID: 2034919528}
   m_Layer: 0
-  m_Name: BoundPos_Enemy
+  m_Name: BoundPoint_Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3200,6 +3215,19 @@ Transform:
   m_Father: {fileID: 1073867626}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2034919528
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034919526}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.5, z: 1.5}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &2056727468
 GameObject:
   m_ObjectHideFlags: 3
@@ -3292,7 +3320,7 @@ GameObject:
   - component: {fileID: 2062518592}
   - component: {fileID: 2062518596}
   - component: {fileID: 2062518597}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3370,7 +3398,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062518591}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.812, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3452,7 +3480,7 @@ GameObject:
   - component: {fileID: 2089776896}
   - component: {fileID: 2089776898}
   - component: {fileID: 2089776897}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Grip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
