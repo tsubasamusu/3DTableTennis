@@ -19,6 +19,11 @@ public class BallController : MonoBehaviour
     private bool isBounded;//台上で跳ねたかどうか
 
     /// <summary>
+    /// 「台上で跳ねたかどうか」の設定用
+    /// </summary>
+    public bool IsBounded { set=>isBounded=value; }
+
+    /// <summary>
     /// ボールを打つ
     /// </summary>
     /// <param name="direction">打つ方向</param>
