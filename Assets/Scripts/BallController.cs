@@ -16,23 +16,31 @@ public class BallController : MonoBehaviour
 
     private OwnerType currentOwner;//現在の弾の所有者
 
+    private Vector3 currentDirection;//現在の進行方向
+
+    private Vector3 currentBoundPos;//現在の跳ねる位置
+
+    private bool inCourt;//コートに入るかどうか
+
     /// <summary>
     /// ボールを打つ
     /// </summary>
-    /// <param name="direction">打つ方向</param>
-    public void ShotBall(Vector3 direction)
+    public void ShotBall()
     {
         //光線を発射する高さを取得
         float posY =currentOwner == OwnerType.Player ? 0.25f : 0.75f;
 
         //光線を作成 
-        Ray ray = new(new Vector3(transform.position.x, posY, transform.position.z), direction);
+        Ray ray = new(new Vector3(transform.position.x, posY, transform.position.z), currentDirection);
+
+        //コートに入らない状態で仮に登録する
+        inCourt = false;
 
         //光線が他のコライダーに触れなかったら
         if (!Physics.Raycast(ray, out RaycastHit hit, 10f))
         {
             //ボールを移動させる
-            StartCoroutine(MoveBall(false, direction));
+            StartCoroutine(MoveBall());
 
             //以降の処理を行わない
             return;
@@ -42,7 +50,7 @@ public class BallController : MonoBehaviour
         if (!hit.transform.TryGetComponent(out BoundPoint boundPoint))
         {
             //ボールを移動させる
-            StartCoroutine(MoveBall(false, direction));
+            StartCoroutine(MoveBall());
 
             //以降の処理を行わない
             return;
@@ -51,28 +59,27 @@ public class BallController : MonoBehaviour
         //現在のボールの所有者のコートに触れたら
         if (boundPoint.GetOwnerTypeOfCourt() == currentOwner)
         {
+            //コートに入る状態で登録する
+            inCourt = true;
+
             //ボールを移動させる
-            StartCoroutine(MoveBall(true, direction));
+            StartCoroutine(MoveBall());
         }
     }
 
     /// <summary>
     /// 適切なy座標を取得する
     /// </summary>
-    /// <param name="inCourt">コートに入るかどうか</param>
     /// <returns>適切なy座標</returns>
-    private float GetAppropriatePosY(bool inCourt)
+    private float GetAppropriatePosY()
     {
-        //跳ねる位置を取得
-        Vector3 boundPos = currentOwner==OwnerType.Player ? playerBoundTran.position : enemyBoundTran.position;
-
         //跳ねる位置との距離を取得
-        float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f))- Vector3.Scale(boundPos, new Vector3(1f, 0f, 1f))).magnitude);
+        float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f))- Vector3.Scale(currentBoundPos, new Vector3(1f, 0f, 1f))).magnitude);
 
         //コートに入らず、一定以下の低さになったら
         if(!inCourt&&transform.position.y<=0.8f)
         {
-            //距離を負にする（落下させる）
+            //距離を負にする（跳ねさせず、落下させる）
             length *= -1f;
         }
 
@@ -83,10 +90,8 @@ public class BallController : MonoBehaviour
     /// <summary>
     /// ボールを移動させる
     /// </summary>
-    /// <param name="inCourt">コートに入るかどうか</param>
-    /// <param name="direction">ボールの移動方向</param>
     /// <returns>待ち時間</returns>
-    private IEnumerator MoveBall(bool inCourt, Vector3 direction)
+    private IEnumerator MoveBall()
     {
         //ボールの所有者を保持
         OwnerType ownerType=currentOwner;
@@ -94,14 +99,11 @@ public class BallController : MonoBehaviour
         //ボールの所有者が変わらない（返球されていない）間、繰り返す
         while(ownerType==currentOwner)
         {
-            //ボールの移動方向を取得
-            direction = Vector3.Scale(direction, new Vector3(1f, 0f, 1f)).normalized;
-
             //ボールを移動させる
-            transform.Translate(direction * GameData.instance.BallSpeed * Time.deltaTime);
+            transform.Translate(currentDirection * GameData.instance.BallSpeed * Time.deltaTime);
 
             //y座標を更新する
-            transform.position = new Vector3(transform.position.x, GetAppropriatePosY(inCourt), transform.position.z);
+            transform.position = new Vector3(transform.position.x, GetAppropriatePosY(), transform.position.z);
 
             //次のフレームへ飛ばす（実質、Updateメソッド）
             yield return null;
@@ -120,8 +122,14 @@ public class BallController : MonoBehaviour
             //ボールの所有者を登録
             currentOwner = racketController.OwnerType;
 
+            //現在の進行方向を登録
+            currentDirection = racketController.transform.root.forward;
+
+            //現在の跳ねる位置を登録
+            currentBoundPos=(currentOwner == OwnerType.Player ? playerBoundTran : enemyBoundTran).GetComponent<BoundPoint>().GetBoundPointPos(transform.position,currentDirection);
+
             //ボールを打つ
-            ShotBall(racketController.transform.root.forward);
+            ShotBall();
         }
     }
 }
