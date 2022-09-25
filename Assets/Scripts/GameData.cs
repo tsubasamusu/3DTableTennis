@@ -37,6 +37,9 @@ public class GameData : MonoBehaviour
     [SerializeField, Header("重力")]
     private float gravity;//重力
 
+    [SerializeField,Header("ボールの速さ")]
+    private float ballSpeed;//ボールの速さ
+
     /// <summary>
     /// 「ラケットを構えるのに要する時間」の取得用
     /// </summary>
@@ -56,4 +59,9 @@ public class GameData : MonoBehaviour
     /// 重力取得用
     /// </summary>
     public float Gravity { get => gravity; }
+
+    /// <summary>
+    /// 「ボールの速さ」の取得用
+    /// </summary>
+    public float BallSpeed { get => ballSpeed; }
 }
