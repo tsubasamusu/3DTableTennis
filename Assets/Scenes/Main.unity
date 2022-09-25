@@ -376,7 +376,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 216389724}
-  m_LocalRotation: {x: -0.0000000010723775, y: 0.998056, z: -0.062324405, w: -0.000000017172932}
+  m_LocalRotation: {x: 0.0000000010723773, y: 0.998056, z: -0.062324405, w: 0.000000017172928}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1889,9 +1889,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1073867626}
-  - component: {fileID: 1073867628}
-  - component: {fileID: 1073867627}
-  - component: {fileID: 1073867629}
   m_Layer: 2
   m_Name: TableTennisTable
   m_TagString: Untagged
@@ -1917,47 +1914,6 @@ Transform:
   m_Father: {fileID: 581154639}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1073867627
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073867625}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &1073867628
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073867625}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5, y: 0.1, z: 3}
-  m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &1073867629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073867625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cca07572079f194fb47b99f12fe2ec8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1074917840
 GameObject:
   m_ObjectHideFlags: 0
