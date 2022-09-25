@@ -376,7 +376,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 216389724}
-  m_LocalRotation: {x: 0.0000000010723773, y: 0.998056, z: -0.062324405, w: 0.000000017172928}
+  m_LocalRotation: {x: -0.0000000010723775, y: 0.998056, z: -0.062324405, w: -0.000000017172932}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1891,6 +1891,7 @@ GameObject:
   - component: {fileID: 1073867626}
   - component: {fileID: 1073867628}
   - component: {fileID: 1073867627}
+  - component: {fileID: 1073867629}
   m_Layer: 0
   m_Name: TableTennisTable
   m_TagString: Untagged
@@ -1945,6 +1946,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 0.1, z: 3}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &1073867629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073867625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cca07572079f194fb47b99f12fe2ec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1074917840
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,6 +2426,7 @@ MonoBehaviour:
   swingTime: 0.5
   moveSpeed: 10
   gravity: 10
+  ballSpeed: 0
 --- !u!1 &1289152545
 GameObject:
   m_ObjectHideFlags: 0
@@ -3210,7 +3224,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2056727468}
-  m_LocalRotation: {x: 4.238689e-10, y: 0.99513334, z: -0.09853762, w: 0.000000004280661}
+  m_LocalRotation: {x: -4.238689e-10, y: 0.99513334, z: -0.098537624, w: -0.0000000042806607}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
