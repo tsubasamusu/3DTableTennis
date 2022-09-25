@@ -9,10 +9,10 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     [SerializeField]
-    private Transform playerBoundTran;//プレイヤー用の跳ねる位置
+    private BoundPoint playerBoundPoint;//プレイヤー用の跳ねる位置
 
     [SerializeField]
-    private Transform enemyBoundTran;//エネミー用の跳ねる位置
+    private BoundPoint enemyBoundPoint;//エネミー用の跳ねる位置
 
     private OwnerType currentOwner;//現在の弾の所有者
 
@@ -28,7 +28,7 @@ public class BallController : MonoBehaviour
     public void ShotBall()
     {
         //光線を発射する高さを取得
-        float posY =currentOwner == OwnerType.Player ? 0.25f : 0.75f;
+        float posY = currentOwner == OwnerType.Player ? 0.25f : 0.75f;
 
         //光線を作成 
         Ray ray = new(new Vector3(transform.position.x, posY, transform.position.z), currentDirection);
@@ -74,10 +74,10 @@ public class BallController : MonoBehaviour
     private float GetAppropriatePosY()
     {
         //跳ねる位置との距離を取得
-        float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f))- Vector3.Scale(currentBoundPos, new Vector3(1f, 0f, 1f))).magnitude);
+        float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f)) - Vector3.Scale(currentBoundPos, new Vector3(1f, 0f, 1f))).magnitude);
 
         //コートに入らず、一定以下の低さになったら
-        if(!inCourt&&transform.position.y<=0.8f)
+        if (!inCourt && transform.position.y <= 0.8f)
         {
             //距離を負にする（跳ねさせず、落下させる）
             length *= -1f;
@@ -94,10 +94,10 @@ public class BallController : MonoBehaviour
     private IEnumerator MoveBall()
     {
         //ボールの所有者を保持
-        OwnerType ownerType=currentOwner;
+        OwnerType ownerType = currentOwner;
 
         //ボールの所有者が変わらない（返球されていない）間、繰り返す
-        while(ownerType==currentOwner)
+        while (ownerType == currentOwner)
         {
             //ボールを移動させる
             transform.Translate(currentDirection * GameData.instance.BallSpeed * Time.deltaTime);
@@ -125,8 +125,11 @@ public class BallController : MonoBehaviour
             //現在の進行方向を登録
             currentDirection = racketController.transform.root.forward;
 
-            //現在の跳ねる位置を登録
-            currentBoundPos=(currentOwner == OwnerType.Player ? playerBoundTran : enemyBoundTran).GetComponent<BoundPoint>().GetBoundPointPos(transform.position,currentDirection);
+            //ボールの所有者に応じて取得する跳ねる位置を変更
+            currentBoundPos = (currentOwner == OwnerType.Player ? playerBoundPoint : enemyBoundPoint)
+
+                //仮想の跳ねる位置を取得
+                .GetBoundPointPos(transform.position, racketController.transform.root.transform.eulerAngles.y);
 
             //ボールを打つ
             ShotBall();

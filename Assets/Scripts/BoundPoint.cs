@@ -21,13 +21,19 @@ public class BoundPoint : MonoBehaviour
     }
 
     /// <summary>
-    /// 跳ねる位置の仮想位置を取得する
+    /// 仮想の跳ねる位置を取得する
     /// </summary>
     /// <param name="ballPos">ボールの位置</param>
-    /// <param name="direction">ボールの進行方向</param>
+    /// <param name="angleY">ボールのy角度</param>
     /// <returns>跳ねる位置の仮想位置/returns>
-    public Vector3 GetBoundPointPos(Vector3 ballPos,Vector3 direction)
+    public Vector3 GetBoundPointPos(Vector3 ballPos,float angleY)
     {
+        //ボールとの距離を取得
+        float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f)) - Vector3.Scale(ballPos, new Vector3(1f, 0f, 1f))).magnitude);
+
+        //ボールのtanθを取得
+        float tan=Mathf.Tan(Mathf.Deg2Rad*angleY);
+
         //（仮）
         return Vector3.zero;
     }
