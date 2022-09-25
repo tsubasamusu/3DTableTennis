@@ -71,7 +71,7 @@ public class RacketController : MonoBehaviour
         transform.DOLocalRotate(prepareLocalRot, GameData.instance.PrepareRacketTime)
 
             //ラケットを振る
-            .OnComplete(() => transform.DOMove(transform.GetChild(1).transform.position, GameData.instance.SwingTime)
+            .OnComplete(() => transform.DOMove(transform.GetChild(0).transform.position, GameData.instance.SwingTime)
 
             //ラケットを基本状態に戻す
             .OnComplete(() => SetNormalCondition()));
