@@ -8,11 +8,19 @@ using DG.Tweening;//DOTweenを使用
 /// </summary>
 public class RacketController : MonoBehaviour
 {
+    [SerializeField]
+    private OwnerType ownerType;//ラケットの所有者
+
     private Vector3 normalLocalPos;//通常時のラケットの座標
 
     private Vector3 normalLocalRot;//通常時のラケットの角度
 
     private bool isIdle;//ラケットを振っていないかどうか
+
+    private BoxCollider boxCollider;//BoxCollider
+
+    //所有者取得用
+    public OwnerType OwnerType { get => ownerType; }
 
     /// <summary>
     /// 「ラケットを振っていないかどうか」の判定の取得用
@@ -32,6 +40,13 @@ public class RacketController : MonoBehaviour
 
         //ラケットを振っていない状態に切り替える
         isIdle = true;
+
+        //BoxColliderの取得に成功したら
+        if (TryGetComponent(out boxCollider))
+        {
+            //BoxColliderを非活性化する
+            boxCollider.enabled = false;
+        }
     }
 
     /// <summary>
@@ -39,6 +54,9 @@ public class RacketController : MonoBehaviour
     /// </summary>
     public void SetNormalCondition()
     {
+        //BoxColliderを非活性化する
+        boxCollider.enabled = false;
+
         //ラケットを基本位置に移動させる
         transform.DOLocalMove(normalLocalPos, GameData.instance.PrepareRacketTime);
 
@@ -57,6 +75,9 @@ public class RacketController : MonoBehaviour
     {
         //ラケットを振っている状態に切り替える
         isIdle = false;
+
+        //BoxColliderを活性化する
+        boxCollider.enabled = true;
 
         //準備位置を取得
         Vector3 prepareLocalPos = isForehandDrive ? new Vector3(1f, 0f, 0f) : new Vector3(0.8f, 0f, 1f);

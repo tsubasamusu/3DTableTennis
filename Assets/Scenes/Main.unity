@@ -674,6 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1c0519ba4003146b25af0dcc9e4f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerType: 1
 --- !u!65 &303054711
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2382,7 +2383,7 @@ MonoBehaviour:
   swingTime: 0.5
   moveSpeed: 10
   gravity: 10
-  ballSpeed: 0
+  ballSpeed: 1
 --- !u!1 &1289152545
 GameObject:
   m_ObjectHideFlags: 0
@@ -3057,6 +3058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1c0519ba4003146b25af0dcc9e4f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerType: 0
 --- !u!65 &1870081464
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3382,7 +3384,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062518591}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.812, z: 0}
+  m_LocalPosition: {x: 0, y: 0.812, z: -2.1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []

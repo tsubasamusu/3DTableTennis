@@ -20,14 +20,10 @@ public class BallController : MonoBehaviour
     /// ボールを打つ
     /// </summary>
     /// <param name="direction">打つ方向</param>
-    /// <param name="ownerType">ボールの所有者</param>
-    public void ShotBall(Vector3 direction, OwnerType ownerType)
+    public void ShotBall(Vector3 direction)
     {
-        //現在のボールの所有者を取得
-        currentOwner = ownerType;
-
         //光線を発射する高さを取得
-        float posY = ownerType == OwnerType.Player ? 0.25f : 0.75f;
+        float posY =currentOwner == OwnerType.Player ? 0.25f : 0.75f;
 
         //光線を作成 
         Ray ray = new(new Vector3(transform.position.x, posY, transform.position.z), direction);
@@ -53,7 +49,7 @@ public class BallController : MonoBehaviour
         }
 
         //現在のボールの所有者のコートに触れたら
-        if (boundPoint.GetOwnerTypeOfCourt() == ownerType)
+        if (boundPoint.GetOwnerTypeOfCourt() == currentOwner)
         {
             //ボールを移動させる
             StartCoroutine(MoveBall(true, direction));
@@ -109,6 +105,23 @@ public class BallController : MonoBehaviour
 
             //次のフレームへ飛ばす（実質、Updateメソッド）
             yield return null;
+        }
+    }
+
+    /// <summary>
+    /// 他のコライダーに接触した際に呼び出される
+    /// </summary>
+    /// <param name="other">接触相手</param>
+    private void OnTriggerEnter(Collider other)
+    {
+        //ラケットに触れたら
+        if (other.TryGetComponent(out RacketController racketController))
+        {
+            //ボールの所有者を登録
+            currentOwner = racketController.OwnerType;
+
+            //ボールを打つ
+            ShotBall(racketController.transform.root.forward);
         }
     }
 }
