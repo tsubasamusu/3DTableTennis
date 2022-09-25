@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// ゲーム開始直後に呼び出される
     /// </summary>
-    void Start()
+    private void Start()
     {
         //ControllerBaseの初期設定を行う
         controllerBase.SetUpControllerBase();
