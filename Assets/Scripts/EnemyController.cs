@@ -39,7 +39,22 @@ public class EnemyController : ControllerBase
     /// </summary>
     protected override void ControlRacket()
     {
-        //各子クラスで処理を記述
+        //ボールが攻撃圏内に入っていなかったら
+        if (Mathf.Abs((transform.position - ballController.transform.position).magnitude) > GameData.instance.EnemyShotRange)
+        {
+            //以降の処理を行わない
+            return;
+        }
+
+        //ラケットを振っている最中なら
+        if(!racketController.IsIdle)
+        {
+            //以降の処理を行わない
+            return ;
+        }
+
+        //フォアハンドドライブにするかバックハンドドライブにするかをランダムに決めて、ドライブをする
+        racketController.Drive(Random.Range(0, 2) == 0 ? true : false);
     }
 
     /// <summary>

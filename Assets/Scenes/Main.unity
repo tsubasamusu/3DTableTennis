@@ -2481,6 +2481,7 @@ MonoBehaviour:
   moveSpeed: 10
   gravity: 10
   ballSpeed: 6
+  enemyShotRange: 2
 --- !u!1 &1289152545
 GameObject:
   m_ObjectHideFlags: 0

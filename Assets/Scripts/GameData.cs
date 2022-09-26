@@ -40,6 +40,9 @@ public class GameData : MonoBehaviour
     [SerializeField,Header("ボールの速さ")]
     private float ballSpeed;//ボールの速さ
 
+    [SerializeField,Header("エネミーの攻撃圏内")]
+    private float enemyShotRange;//エネミーの攻撃圏内
+
     /// <summary>
     /// 「ラケットを構えるのに要する時間」の取得用
     /// </summary>
@@ -64,4 +67,9 @@ public class GameData : MonoBehaviour
     /// 「ボールの速さ」の取得用
     /// </summary>
     public float BallSpeed { get => ballSpeed; }
+
+    /// <summary>
+    /// 「エネミーの攻撃圏内」の取得用
+    /// </summary>
+    public float EnemyShotRange { get => enemyShotRange; }
 }
