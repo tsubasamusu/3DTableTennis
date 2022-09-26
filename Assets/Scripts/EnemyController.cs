@@ -22,20 +22,17 @@ public class EnemyController : ControllerBase
     protected override Vector3 GetMoveDir()
     {
         //現在のボールの所有者がエネミーなら
-        if(ballController.CurrentOwner==OwnerType.Enemy)
+        if (ballController.CurrentOwner == OwnerType.Enemy)
         {
             //初期位置への方向を返す（初期位置に向かって移動する）
-            return firstPos-transform.position;
+            return firstPos - transform.position;
         }
 
         //相手（プレイヤー）のボールがコートに入るなら
         if (ballController.InCourt)
         {
-            //目的地を取得
-            Vector3 targetPos=ballController.transform.position+new Vector3(0f,0f,-2f);
-
             //目的地への方向を返す（ボールに向かって移動する）
-            return targetPos - transform.position;
+            return ballController.transform.position - transform.position;
         }
 
         //移動しない

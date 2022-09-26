@@ -17,7 +17,7 @@ public class RacketController : MonoBehaviour
 
     private bool isIdle;//ラケットを振っていないかどうか
 
-    private BoxCollider boxCollider;//BoxCollider
+    private SphereCollider sphereCollider;//SphereCollider
 
     //所有者取得用
     public OwnerType OwnerType { get => ownerType; }
@@ -42,10 +42,10 @@ public class RacketController : MonoBehaviour
         isIdle = true;
 
         //BoxColliderの取得に成功したら
-        if (TryGetComponent(out boxCollider))
+        if (TryGetComponent(out sphereCollider))
         {
             //BoxColliderを非活性化する
-            boxCollider.enabled = false;
+            sphereCollider.enabled = false;
         }
     }
 
@@ -55,7 +55,7 @@ public class RacketController : MonoBehaviour
     public void SetNormalCondition()
     {
         //BoxColliderを非活性化する
-        boxCollider.enabled = false;
+        sphereCollider.enabled = false;
 
         //ラケットを基本位置に移動させる
         transform.DOLocalMove(normalLocalPos, GameData.instance.PrepareRacketTime);
@@ -77,7 +77,7 @@ public class RacketController : MonoBehaviour
         isIdle = false;
 
         //BoxColliderを活性化する
-        boxCollider.enabled = true;
+        sphereCollider.enabled = true;
 
         //準備位置を取得
         Vector3 prepareLocalPos = isForehandDrive ? new Vector3(1f, 0f, 0f) : new Vector3(0.8f, 0f, 1f);

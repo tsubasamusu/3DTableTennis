@@ -43,9 +43,6 @@ public class GameData : MonoBehaviour
     [SerializeField,Header("エネミーの攻撃圏内")]
     private float enemyShotRange;//エネミーの攻撃圏内
 
-    [SerializeField,Header("エネミーと卓球台との最短距離")]
-    private float lengthToTable;//エネミーと卓球台との最短距離
-
     /// <summary>
     /// 「ラケットを構えるのに要する時間」の取得用
     /// </summary>
@@ -75,9 +72,4 @@ public class GameData : MonoBehaviour
     /// 「エネミーの攻撃圏内」の取得用
     /// </summary>
     public float EnemyShotRange { get => enemyShotRange; }
-
-    /// <summary>
-    /// 「エネミーと卓球台との最短距離」の取得用
-    /// </summary>
-    public float LengthToTable { get => lengthToTable; }
 }
