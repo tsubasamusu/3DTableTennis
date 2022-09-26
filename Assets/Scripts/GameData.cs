@@ -31,7 +31,7 @@ public class GameData : MonoBehaviour
     [SerializeField,Header("ラケットを振る時間")]
     private float swingTime;//ラケットを振る時間
 
-    [SerializeField,Header("移動速度"),Range(8f,10f)]
+    [SerializeField,Header("移動速度"),Range(8.05f,8.15f)]
     private float moveSpeed;//移動速度
 
     [SerializeField, Header("重力")]
