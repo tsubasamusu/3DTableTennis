@@ -4,5 +4,5 @@
 public enum OwnerType
 {
     Player,//プレイヤー
-    Enemy//エネミー
+    Enemy,//エネミー
 }

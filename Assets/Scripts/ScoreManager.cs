@@ -7,6 +7,10 @@ using UnityEngine;
 /// </summary>
 public class ScoreManager : MonoBehaviour
 {
+    private int count;//サーブの回数の記録用
+
+    private OwnerType server;//サーバー保持用
+
     /// <summary>
     /// ScoreManagerの初期設定を行う
     /// </summary>
@@ -36,12 +40,36 @@ public class ScoreManager : MonoBehaviour
                 UpdateScore(ballController.CurrentOwner == OwnerType.Player ? (0, 1) : (1, 0));
 
                 //ボールの動きを止める
-                ballController.StopBall(OwnerType.Enemy);
+                ballController.StopBall(GetAppropriatServer(ballController));
 
                 //次のフレームへ飛ばす（実質、Updateメソッド）
                 yield return null;
             }
         }
+    }
+
+    /// <summary>
+    /// 適切なサーバーを取得する（ボールが落下した際に呼び出だされる）
+    /// </summary>
+    /// <param name="ballController">BallController</param>
+    /// <returns>適切なサーバー</returns>
+    private OwnerType GetAppropriatServer(BallController ballController)
+    { 
+        //サーブ回数を記録
+        count++;
+
+        //まだ2本サーブを打っていないなら
+        if (count<2)
+        {
+            //サーバーを変更しない
+            return server;
+        }
+
+        //サーブ回数を初期化
+        count = 0;
+
+        //サーバーを変えて、記録する
+        return server= server == OwnerType.Player ? OwnerType.Enemy : OwnerType.Player;
     }
 
     /// <summary>
