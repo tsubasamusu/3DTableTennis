@@ -75,7 +75,7 @@ public class BallController : MonoBehaviour
         float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f)) - Vector3.Scale(currentBoundPos, new Vector3(1f, 0f, 1f))).magnitude);
 
         //コートに入らず、一定以下の低さになったら
-        if (!inCourt && transform.position.y <= 0.8f)
+        if (!inCourt && transform.position.y<=0.8f)
         {
             //距離を負にする（跳ねさせず、落下させる）
             length *= -1f;
