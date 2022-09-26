@@ -22,6 +22,9 @@ public class BallController : MonoBehaviour
 
     private bool inCourt;//コートに入るかどうか
 
+    [SerializeField]
+    private Transform debugTran;
+
     /// <summary>
     /// ボールを打つ
     /// </summary>
@@ -133,6 +136,8 @@ public class BallController : MonoBehaviour
 
             //ボールを打つ
             ShotBall();
+
+            debugTran.position = currentBoundPos;
         }
     }
 }
