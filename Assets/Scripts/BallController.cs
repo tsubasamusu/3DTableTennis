@@ -16,14 +16,9 @@ public class BallController : MonoBehaviour
 
     private OwnerType currentOwner;//現在の弾の所有者
 
-    private Vector3 currentDirection;//現在の進行方向
-
     private Vector3 currentBoundPos;//現在の跳ねる位置
 
     private bool inCourt;//コートに入るかどうか
-
-    [SerializeField]
-    private Transform debugTran;
 
     /// <summary>
     /// ボールを打つ
@@ -34,7 +29,7 @@ public class BallController : MonoBehaviour
         float posY = currentOwner == OwnerType.Player ? 0.25f : 0.75f;
 
         //光線を作成 
-        Ray ray = new(new Vector3(transform.position.x, posY, transform.position.z), currentDirection);
+        Ray ray = new(new Vector3(transform.position.x, posY, transform.position.z), transform.forward);
 
         //コートに入らない状態で仮に登録する
         inCourt = false;
@@ -42,8 +37,8 @@ public class BallController : MonoBehaviour
         //光線が他のコライダーに触れなかったら
         if (!Physics.Raycast(ray, out RaycastHit hit, 10f))
         {
-            //ボールを移動させる
-            StartCoroutine(MoveBall());
+            //ボールを移動させる準備を行う
+            PrepareMoveBall();
 
             //以降の処理を行わない
             return;
@@ -52,8 +47,8 @@ public class BallController : MonoBehaviour
         //接触相手がコートではないなら
         if (!hit.transform.TryGetComponent(out BoundPoint boundPoint))
         {
-            //ボールを移動させる
-            StartCoroutine(MoveBall());
+            //ボールを移動させる準備を行う
+            PrepareMoveBall();
 
             //以降の処理を行わない
             return;
@@ -65,8 +60,8 @@ public class BallController : MonoBehaviour
             //コートに入る状態で登録する
             inCourt = true;
 
-            //ボールを移動させる
-            StartCoroutine(MoveBall());
+            //ボールを移動させる準備を行う
+            PrepareMoveBall();
         }
     }
 
@@ -91,6 +86,15 @@ public class BallController : MonoBehaviour
     }
 
     /// <summary>
+    /// ボールを移動させる準備を行う
+    /// </summary>
+    private void PrepareMoveBall()
+    {
+        //ボールを移動させる
+        StartCoroutine(MoveBall());
+    }
+
+    /// <summary>
     /// ボールを移動させる
     /// </summary>
     /// <returns>待ち時間</returns>
@@ -102,8 +106,8 @@ public class BallController : MonoBehaviour
         //ボールの所有者が変わらない（返球されていない）間、繰り返す
         while (ownerType == currentOwner)
         {
-            //ボールを移動させる
-            transform.Translate(currentDirection * GameData.instance.BallSpeed * Time.deltaTime);
+            //ボールの向きに移動させる
+            transform.position += transform.forward * GameData.instance.BallSpeed*Time.deltaTime;
 
             //y座標を更新する
             transform.position = new Vector3(transform.position.x, GetAppropriatePosY(), transform.position.z);
@@ -125,19 +129,17 @@ public class BallController : MonoBehaviour
             //ボールの所有者を登録
             currentOwner = racketController.OwnerType;
 
-            //現在の進行方向を登録
-            currentDirection = racketController.transform.root.forward;
+            //ボールの向きを設定
+            transform.eulerAngles=new Vector3(0f,racketController.transform.root.transform.eulerAngles.y,0f);
 
             //ボールの所有者に応じて取得する跳ねる位置を変更
             currentBoundPos = (currentOwner == OwnerType.Player ? playerBoundPoint : enemyBoundPoint)
 
                 //仮想の跳ねる位置を取得
-                .GetVirtualBoundPointPos(transform.position, racketController.transform.root.transform.eulerAngles.y);
+                .GetVirtualBoundPointPos(transform, racketController.transform.root.transform.eulerAngles.y);
 
             //ボールを打つ
             ShotBall();
-
-            debugTran.position = currentBoundPos;
         }
     }
 }
