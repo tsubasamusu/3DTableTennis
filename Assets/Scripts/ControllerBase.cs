@@ -43,7 +43,7 @@ public class ControllerBase : MonoBehaviour
 
         //ˆÚ“®‚·‚é
         Move();
-
+        
         //ƒ‰ƒPƒbƒg‚ğ§Œä‚·‚é
         ControlRacket();
     }

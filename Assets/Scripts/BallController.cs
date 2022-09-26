@@ -14,7 +14,7 @@ public class BallController : MonoBehaviour
     [SerializeField]
     private BoundPoint enemyBoundPoint;//エネミー用の跳ねる位置
 
-    private OwnerType currentOwner;//現在の弾の所有者
+    private OwnerType currentOwner=OwnerType.Enemy;//現在の弾の所有者
 
     private Vector3 currentBoundPos;//現在の跳ねる位置
 
@@ -136,6 +136,13 @@ public class BallController : MonoBehaviour
         //ラケットに触れたら
         if (other.TryGetComponent(out RacketController racketController))
         {
+            //現在のボールの所有者と、ボールを打った者人が同じなら（二度打ちされたら）
+            if(currentOwner==racketController.OwnerType)
+            {
+                //以降の処理を行わない
+                return;
+            }
+
             //ボールの所有者を登録
             currentOwner = racketController.OwnerType;
 

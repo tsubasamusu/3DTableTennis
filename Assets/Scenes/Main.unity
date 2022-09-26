@@ -2465,7 +2465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prepareRacketTime: 0
   swingTime: 0.2
-  moveSpeed: 10
+  moveSpeed: 8.25
   gravity: 10
   ballSpeed: 3
   enemyShotRange: 1
