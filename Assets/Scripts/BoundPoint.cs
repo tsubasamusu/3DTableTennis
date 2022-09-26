@@ -13,7 +13,7 @@ public class BoundPoint : MonoBehaviour
     [SerializeField]
     private Transform virtualBoundPoint;//仮想位置
 
-    private Transform virtualBoundPointTran;//仮想位置のいい保持用
+    private Transform virtualBoundPointTran;//仮想位置の保持用
 
     /// <summary>
     /// コートの所有者を取得する
@@ -45,6 +45,9 @@ public class BoundPoint : MonoBehaviour
 
         //仮想位置の向きをボールの向きに合わせる
         virtualBoundPointTran.localEulerAngles= Vector3.zero;
+
+        //仮想位置の座標を初期化
+        virtualBoundPointTran.position = transform.position;
 
         //仮想位置の位置を設定
         virtualBoundPointTran.localPosition = new Vector3(0f,virtualBoundPointTran.localPosition.y,virtualBoundPointTran.localPosition.z);
