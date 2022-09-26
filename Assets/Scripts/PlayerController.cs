@@ -23,6 +23,13 @@ public class PlayerController : ControllerBase
     /// </summary>
     protected override Vector3 GetMoveDir()
     {
+        //‰½‚à‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢‚È‚ç
+        if(!Input.anyKey)
+        {
+            //ˆÈ~‚Ìˆ—‚ğs‚í‚È‚¢i–³‘Ê‚Èˆ—‚ğ–h~E–³‘€ì‚Å‚ÌˆÚ“®–h~j
+            return Vector3.zero;
+        }
+
         //¶‰EˆÚ“®‚Ì“ü—Í‚ğæ“¾
         float moveH = Input.GetAxis("Horizontal");
 
