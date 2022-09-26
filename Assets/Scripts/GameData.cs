@@ -43,6 +43,9 @@ public class GameData : MonoBehaviour
     [SerializeField,Header("エネミーの攻撃圏内")]
     private float enemyShotRange;//エネミーの攻撃圏内
 
+    [HideInInspector]
+    public (int playerScore,int enemyScore) score;//得点
+
     /// <summary>
     /// 「ラケットを構えるのに要する時間」の取得用
     /// </summary>

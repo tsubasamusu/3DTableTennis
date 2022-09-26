@@ -20,6 +20,8 @@ public class BallController : MonoBehaviour
 
     private bool inCourt;//コートに入るかどうか
 
+    private bool stopMove;//ボールの動きを止めるかどうか
+
     /// <summary>
     /// 「コートに入るかどうか」の取得用
     /// </summary>
@@ -116,11 +118,18 @@ public class BallController : MonoBehaviour
         //ボールの所有者が変わらない（返球されていない）間、繰り返す
         while (ownerType == currentOwner)
         {
+            //ボールの動きを止める指示が出たら
+            if(stopMove)
+            {
+                //繰り返し処理を終了する
+                break;
+            }
+
             //ボールの向きに移動させる
             transform.position += transform.forward * GameData.instance.BallSpeed*Time.deltaTime;
 
             //y座標を更新する
-            transform.position = new Vector3(transform.position.x, GetAppropriatePosY(), transform.position.z);
+            transform.position = new Vector3(transform.position.x,Mathf.Clamp(GetAppropriatePosY(),0.25f,10f), transform.position.z);
 
             //次のフレームへ飛ばす（実質、Updateメソッド）
             yield return null;
@@ -143,6 +152,9 @@ public class BallController : MonoBehaviour
                 return;
             }
 
+            //停止命令を解除
+            stopMove = false;
+
             //ボールの所有者を登録
             currentOwner = racketController.OwnerType;
 
@@ -158,5 +170,14 @@ public class BallController : MonoBehaviour
             //ボールを打つ
             ShotBall();
         }
+    }
+
+    /// <summary>
+    /// ボールを止め、サーブから再スタートする
+    /// </summary>
+    public void StopBall()
+    {
+        //ボールの動きを止める
+        stopMove = true;
     }
 }
