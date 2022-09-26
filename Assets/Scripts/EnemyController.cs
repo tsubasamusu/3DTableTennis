@@ -13,15 +13,32 @@ public class EnemyController : ControllerBase
     [SerializeField]
     private BallController ballController;//BallController
 
+    private Vector3 firstPos;//初期位置
+
     /// <summary>
     /// 移動方向を取得する
     /// </summary>
     /// <returns></returns>
     protected override Vector3 GetMoveDir()
     {
-        //各子クラスで処理を記述
+        //現在のボールの所有者がエネミーなら
+        if(ballController.CurrentOwner==OwnerType.Enemy)
+        {
+            //初期位置への方向を返す（初期位置に向かって移動する）
+            return firstPos-transform.position;
+        }
 
-        //仮
+        //相手（プレイヤー）のボールがコートに入るなら
+        if (ballController.InCourt)
+        {
+            //目的地を取得
+            Vector3 targetPos=ballController.transform.position+new Vector3(0f,0f,-2f);
+
+            //目的地への方向を返す（ボールに向かって移動する）
+            return targetPos - transform.position;
+        }
+
+        //移動しない
         return Vector3.zero;
     }
 
@@ -32,6 +49,9 @@ public class EnemyController : ControllerBase
     {
         //BallControllerを取得
         this.ballController = ballController;
+
+        //初期位置を取得
+        firstPos = transform.position;
     }
 
     /// <summary>
@@ -53,8 +73,8 @@ public class EnemyController : ControllerBase
             return ;
         }
 
-        //フォアハンドドライブにするかバックハンドドライブにするかをランダムに決めて、ドライブをする
-        racketController.Drive(Random.Range(0, 2) == 0 ? true : false);
+        //フォアハンドドライブにするかバックハンドドライブにするかを決めて、ドライブをする
+        racketController.Drive(transform.position.x >= ballController.transform.position.x);
     }
 
     /// <summary>

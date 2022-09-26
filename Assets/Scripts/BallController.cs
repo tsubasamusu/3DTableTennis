@@ -21,6 +21,16 @@ public class BallController : MonoBehaviour
     private bool inCourt;//コートに入るかどうか
 
     /// <summary>
+    /// 「コートに入るかどうか」の取得用
+    /// </summary>
+    public bool InCourt { get=>inCourt;}
+
+    /// <summary>
+    /// ボールの現在の所有者の取得用
+    /// </summary>
+    public OwnerType CurrentOwner { get => currentOwner; }
+
+    /// <summary>
     /// ボールを打つ
     /// </summary>
     public void ShotBall()
