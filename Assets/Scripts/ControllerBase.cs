@@ -22,9 +22,6 @@ public class ControllerBase : MonoBehaviour
         //RacketControllerを取得
         racketController = transform.GetChild(1).GetComponent<RacketController>();
 
-        //各Controllerの初期設定を行う
-        SetUpController();
-
         //RacketControllerの初期設定を行う
         racketController.SetUpRacketController();
     }
@@ -70,14 +67,6 @@ public class ControllerBase : MonoBehaviour
 
         //仮
         return Vector3.zero;
-    }
-
-    /// <summary>
-    /// 各Controllerの初期設定を行う
-    /// </summary>
-    protected virtual void SetUpController()
-    {
-        //各子クラスで処理を記述
     }
 
     /// <summary>

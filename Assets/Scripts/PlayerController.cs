@@ -12,7 +12,7 @@ public class PlayerController : ControllerBase
     /// <summary>
     /// PlayerControllerの初期設定を行う
     /// </summary>
-    protected override void SetUpController()
+    public void SetUpPlayerController()
     {
         //メインカメラの位置情報を取得
         mainCameraTran = Camera.main.transform;
