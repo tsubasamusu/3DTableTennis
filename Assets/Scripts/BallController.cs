@@ -175,9 +175,19 @@ public class BallController : MonoBehaviour
     /// <summary>
     /// ボールを止め、サーブから再スタートする
     /// </summary>
-    public void StopBall()
+    /// <param name="server">誰がサーブをするか</param>
+    public void StopBall(OwnerType server)
     {
         //ボールの動きを止める
         stopMove = true;
+
+        //サーブをする人に応じてボールの位置を変更
+        transform.position = new Vector3(0f, 1f, server == OwnerType.Player ? -3f : 3f);
+
+        //現在のボールの所有者を設定
+        currentOwner=server==OwnerType.Player?OwnerType.Enemy:OwnerType.Player;
+
+        //コートに入る状態にする（エネミーに動いてもらうため）
+        inCourt = true;
     }
 }

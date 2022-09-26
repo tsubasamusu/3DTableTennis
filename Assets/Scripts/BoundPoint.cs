@@ -37,7 +37,7 @@ public class BoundPoint : MonoBehaviour
         if(virtualBoundPointTran==null)
         {
             //仮想位置を生成
-            virtualBoundPointTran = Instantiate(virtualBoundPoint);
+            virtualBoundPointTran = Instantiate(virtualBoundPoint,transform.position,Quaternion.identity);
         }
 
         //仮想位置の親をボールに設定

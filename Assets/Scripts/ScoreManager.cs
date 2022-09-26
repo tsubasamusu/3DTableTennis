@@ -32,14 +32,11 @@ public class ScoreManager : MonoBehaviour
                     continue;
                 }
 
-                //得点の更新量を取得
-                (int, int) updateValue = ballController.CurrentOwner == OwnerType.Player ? (0, 1) : (1, 0);
-
                 //得点を更新
-                UpdateScore(updateValue.Item1, updateValue.Item2);
+                UpdateScore(ballController.CurrentOwner == OwnerType.Player ? (0, 1) : (1, 0));
 
                 //ボールの動きを止める
-                ballController.StopBall();
+                ballController.StopBall(OwnerType.Enemy);
 
                 //次のフレームへ飛ばす（実質、Updateメソッド）
                 yield return null;
@@ -50,14 +47,10 @@ public class ScoreManager : MonoBehaviour
     /// <summary>
     /// 得点を更新する
     /// </summary>
-    /// <param name="playerValue">プレイヤーの得点の更新量</param>
-    /// <param name="enemyValue">エネミーの得点の更新量</param>
-    private void UpdateScore(int playerValue,int enemyValue)
+    /// <param name="value">更新量</param>
+    private void UpdateScore((int playerValue,int enemyValue) value)
     {
-        //プレイヤーの得点を更新
-        GameData.instance.score.playerScore+=playerValue;
-
-        //エネミーの得点を更新
-        GameData.instance.score.enemyScore+=enemyValue;
+        //得点を更新
+        GameData.instance.score = value;
     }
 }
