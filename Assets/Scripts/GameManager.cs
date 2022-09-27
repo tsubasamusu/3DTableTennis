@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour
                 {
                     //PlayerController‚Ì‰Šúİ’è‚ğs‚¤
                     playerController.SetUpPlayerController();
+
+                    //BallController‚Ì‰Šúİ’è‚ğs‚¤
+                    ballController.SetUpBallController(playerController);
                 }
                 //EnemyController‚ğæ“¾‚Å‚«‚½‚ç
                 else if (controllersList[i].TryGetComponent(out EnemyController enemyController))

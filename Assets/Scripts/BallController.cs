@@ -14,6 +14,8 @@ public class BallController : MonoBehaviour
     [SerializeField]
     private BoundPoint enemyBoundPoint;//エネミー用の跳ねる位置
 
+    private PlayerController playerController;//PlayerController
+
     private OwnerType currentOwner = OwnerType.Enemy;//現在の弾の所有者
 
     private Vector3 currentBoundPos;//現在の跳ねる位置
@@ -31,6 +33,16 @@ public class BallController : MonoBehaviour
     /// ボールの現在の所有者の取得用
     /// </summary>
     public OwnerType CurrentOwner { get => currentOwner; }
+
+    /// <summary>
+    /// BallControllerの初期設定を行う
+    /// </summary>
+    /// <param name="playerController"></param>
+    public void SetUpBallController(PlayerController playerController)
+    {
+        //PlayerControllerを取得
+        this.playerController = playerController;
+    }
 
     /// <summary>
     /// ボールを打つ
@@ -197,6 +209,9 @@ public class BallController : MonoBehaviour
 
         //現在のボールの所有者を設定
         currentOwner = server == OwnerType.Player ? OwnerType.Enemy : OwnerType.Player;
+
+        //プレイヤーの位置を初期化
+        playerController.ResetPlayerPos();
 
         //サーバーがエネミーなら
         if(server==OwnerType.Enemy)

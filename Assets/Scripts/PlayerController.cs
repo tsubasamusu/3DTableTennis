@@ -9,6 +9,8 @@ public class PlayerController : ControllerBase
 {
     private Transform mainCameraTran;//メインカメラの位置情報
 
+    private Vector3 firstPos;//プレイヤーの初期位置
+
     /// <summary>
     /// PlayerControllerの初期設定を行う
     /// </summary>
@@ -16,6 +18,9 @@ public class PlayerController : ControllerBase
     {
         //メインカメラの位置情報を取得
         mainCameraTran = Camera.main.transform;
+
+        //プレイヤーの初期位置を取得
+        firstPos = transform.position;
     }
 
     /// <summary>
@@ -69,5 +74,20 @@ public class PlayerController : ControllerBase
     {
         //キャラクターの向きを設定する
         transform.eulerAngles = new Vector3(0f, mainCameraTran.eulerAngles.y, 0f);
+    }
+
+    /// <summary>
+    /// プレイヤーを初期位置に移動させる
+    /// </summary>
+    public void ResetPlayerPos()
+    {
+        //CharacterControllerを非活性化する
+        charaController.enabled = false;
+
+        //プレーヤーを初期位置に移動させる
+        transform.position = firstPos;
+
+        //CharacterControllerを活性化する
+        charaController.enabled = true;
     }
 }
