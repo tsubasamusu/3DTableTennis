@@ -43,6 +43,9 @@ public class GameData : MonoBehaviour
     [SerializeField,Header("エネミーの攻撃圏内")]
     private float enemyShotRange;//エネミーの攻撃圏内
 
+    [SerializeField,Header("エネミーがサーブを打つまでの時間")]
+    private float enemyServeTime;//エネミーがサーブを打つまでの時間
+
     [HideInInspector]
     public (int playerScore,int enemyScore) score;//得点
 
@@ -75,4 +78,9 @@ public class GameData : MonoBehaviour
     /// 「エネミーの攻撃圏内」の取得用
     /// </summary>
     public float EnemyShotRange { get => enemyShotRange; }
+
+    /// <summary>
+    /// 「エネミーがサーブを打つまでの時間」の取得用
+    /// </summary>
+    public float EnemyServeTime { get => enemyServeTime; }
 }

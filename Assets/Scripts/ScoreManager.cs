@@ -40,7 +40,7 @@ public class ScoreManager : MonoBehaviour
                 UpdateScore(ballController.CurrentOwner == OwnerType.Player ? (0, 1) : (1, 0));
 
                 //ボールの動きを止める
-                ballController.StopBall(GetAppropriatServer(ballController));
+                ballController.PrepareRestartGame(GetAppropriatServer(ballController));
 
                 //次のフレームへ飛ばす（実質、Updateメソッド）
                 yield return null;

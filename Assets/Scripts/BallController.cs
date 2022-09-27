@@ -14,7 +14,7 @@ public class BallController : MonoBehaviour
     [SerializeField]
     private BoundPoint enemyBoundPoint;//エネミー用の跳ねる位置
 
-    private OwnerType currentOwner=OwnerType.Enemy;//現在の弾の所有者
+    private OwnerType currentOwner = OwnerType.Enemy;//現在の弾の所有者
 
     private Vector3 currentBoundPos;//現在の跳ねる位置
 
@@ -25,7 +25,7 @@ public class BallController : MonoBehaviour
     /// <summary>
     /// 「コートに入るかどうか」の取得用
     /// </summary>
-    public bool InCourt { get=>inCourt;}
+    public bool InCourt { get => inCourt; }
 
     /// <summary>
     /// ボールの現在の所有者の取得用
@@ -87,7 +87,7 @@ public class BallController : MonoBehaviour
         float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f)) - Vector3.Scale(currentBoundPos, new Vector3(1f, 0f, 1f))).magnitude);
 
         //コートに入らず、一定以下の低さになったら
-        if (!inCourt && transform.position.y<=0.8f)
+        if (!inCourt && transform.position.y <= 0.8f)
         {
             //距離を負にする（跳ねさせず、落下させる）
             length *= -1f;
@@ -119,17 +119,17 @@ public class BallController : MonoBehaviour
         while (ownerType == currentOwner)
         {
             //ボールの動きを止める指示が出たら
-            if(stopMove)
+            if (stopMove)
             {
                 //繰り返し処理を終了する
                 break;
             }
 
             //ボールの向きに移動させる
-            transform.position += transform.forward * GameData.instance.BallSpeed*Time.deltaTime;
+            transform.position += transform.forward * GameData.instance.BallSpeed * Time.deltaTime;
 
             //y座標を更新する
-            transform.position = new Vector3(transform.position.x,Mathf.Clamp(GetAppropriatePosY(),0.25f,10f), transform.position.z);
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(GetAppropriatePosY(), 0.25f, 10f), transform.position.z);
 
             //次のフレームへ飛ばす（実質、Updateメソッド）
             yield return null;
@@ -146,7 +146,7 @@ public class BallController : MonoBehaviour
         if (other.TryGetComponent(out RacketController racketController))
         {
             //現在のボールの所有者と、ボールを打った者人が同じなら（二度打ちされたら）
-            if(currentOwner==racketController.OwnerType)
+            if (currentOwner == racketController.OwnerType)
             {
                 //以降の処理を行わない
                 return;
@@ -159,7 +159,7 @@ public class BallController : MonoBehaviour
             currentOwner = racketController.OwnerType;
 
             //ボールの向きを設定
-            transform.eulerAngles=new Vector3(0f,racketController.transform.root.transform.eulerAngles.y,0f);
+            transform.eulerAngles = new Vector3(0f, racketController.transform.root.transform.eulerAngles.y, 0f);
 
             //ボールの所有者に応じて取得する跳ねる位置を変更
             currentBoundPos = (currentOwner == OwnerType.Player ? playerBoundPoint : enemyBoundPoint)
@@ -173,10 +173,21 @@ public class BallController : MonoBehaviour
     }
 
     /// <summary>
-    /// ボールを止め、サーブから再スタートする
+    /// サーブから再スタートするための準備を行う
     /// </summary>
     /// <param name="server">誰がサーブをするか</param>
-    public void StopBall(OwnerType server)
+    public void PrepareRestartGame(OwnerType server)
+    {
+        //サーブから再スタートする
+        StartCoroutine(RestartGame(server));
+    }
+
+    /// <summary>
+    /// サーブから再スタートする
+    /// </summary>
+    /// <param name="server">誰がサーブをするか</param>
+    /// <returns>待ち時間</returns>
+    private IEnumerator RestartGame(OwnerType server)
     {
         //ボールの動きを止める
         stopMove = true;
@@ -185,7 +196,14 @@ public class BallController : MonoBehaviour
         transform.position = new Vector3(0f, 1f, server == OwnerType.Player ? -3f : 3f);
 
         //現在のボールの所有者を設定
-        currentOwner=server==OwnerType.Player?OwnerType.Enemy:OwnerType.Player;
+        currentOwner = server == OwnerType.Player ? OwnerType.Enemy : OwnerType.Player;
+
+        //サーバーがエネミーなら
+        if(server==OwnerType.Enemy)
+        {
+            //一定時間待つ（エネミーがサーブを打つまでの時間を設ける）
+            yield return new WaitForSeconds(GameData.instance.EnemyServeTime);
+        }
 
         //コートに入る状態にする（エネミーに動いてもらうため）
         inCourt = true;

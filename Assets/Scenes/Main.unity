@@ -376,7 +376,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 216389724}
-  m_LocalRotation: {x: -0.000000001080723, y: 0.998056, z: -0.06232441, w: -0.000000017306572}
+  m_LocalRotation: {x: 0.000000001080723, y: 0.998056, z: -0.06232441, w: 0.000000017306572}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2513,6 +2513,7 @@ MonoBehaviour:
   gravity: 10
   ballSpeed: 3
   enemyShotRange: 1
+  enemyServeTime: 2
 --- !u!1 &1289152545
 GameObject:
   m_ObjectHideFlags: 0
