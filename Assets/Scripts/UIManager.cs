@@ -51,6 +51,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text txtButton;//ボタンのテキスト
 
+    [SerializeField]
+    private CanvasGroup cvDifficulty;//難易度のキャンバスグループ
+
+    [SerializeField]
+    private Slider slrDifficulty;//難易度のスライダー
+
     /// <summary>
     /// ロゴのスプライトを取得する
     /// </summary>
@@ -60,5 +66,15 @@ public class UIManager : MonoBehaviour
     {
         //ロゴのスプライトを返す
         return logoDatasList.Find(x => x.LogoType == logoType).sprite;
+    }
+
+    /// <summary>
+    /// ゲームスタート演出を行う
+    /// </summary>
+    /// <returns>待ち時間</returns>
+    public IEnumerator PlayGameStart()
+    {
+        //（仮）
+        yield return null;
     }
 }
