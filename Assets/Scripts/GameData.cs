@@ -31,8 +31,8 @@ public class GameData : MonoBehaviour
     [SerializeField,Header("ラケットを振る時間")]
     private float swingTime;//ラケットを振る時間
 
-    [SerializeField,Header("移動速度"),Range(8.05f,8.15f)]
-    private float moveSpeed;//移動速度
+    [SerializeField,Header("移動速度（難易度）"),Range(8.05f,8.15f)]
+    private float moveSpeed;//移動速度（難易度）
 
     [SerializeField, Header("重力")]
     private float gravity;//重力
@@ -60,9 +60,9 @@ public class GameData : MonoBehaviour
     public float SwingTime { get => swingTime; }
 
     /// <summary>
-    /// 移動速度の取得用
+    /// 移動速度（難易度）の取得・設定用
     /// </summary>
-    public float MoveSpeed { get => moveSpeed; }
+    public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
 
     /// <summary>
     /// 重力取得用

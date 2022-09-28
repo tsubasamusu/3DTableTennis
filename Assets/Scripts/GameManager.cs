@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Collections;//IEnumeratorを使用
+using System.Collections.Generic;//リストを使用
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,16 +13,23 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private ScoreManager scoreManager;//ScoreManager
 
+    [SerializeField]
+    private UIManager uiManager;//UIManager
+
     /// <summary>
     /// ゲーム開始直後に呼び出される
     /// </summary>
-    private void Start()
+    /// <returns>待ち時間</returns>
+    private IEnumerator Start()
     {
         //各コントローラーの初期設定を行う
         SetUpControllers();
 
         //ScoreManagerの初期設定を行う
         scoreManager.SetUpScoreManager(ballController);
+
+        //ゲームスタート演出が終わるまで待つ
+        yield return uiManager.PlayGameStart();
     }
 
     /// <summary>

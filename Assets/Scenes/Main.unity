@@ -918,7 +918,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Start
 --- !u!222 &323361079
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1221,6 +1221,7 @@ GameObject:
   - component: {fileID: 506659190}
   - component: {fileID: 506659189}
   - component: {fileID: 506659188}
+  - component: {fileID: 506659191}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1306,7 +1307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1331,6 +1332,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506659186}
   m_CullTransparentMesh: 1
+--- !u!225 &506659191
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506659186}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &560027974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,7 +1641,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618946846}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2411,7 +2424,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3791,6 +3804,7 @@ MonoBehaviour:
   - {fileID: 1319756514}
   ballController: {fileID: 2062518597}
   scoreManager: {fileID: 927100362}
+  uiManager: {fileID: 1540896987}
 --- !u!1 &1485979610
 GameObject:
   m_ObjectHideFlags: 3
@@ -4069,12 +4083,13 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: e447601aae62ece419ec8e472d175ae5, type: 3}
   imgLogo: {fileID: 2007581305}
   imgBackground: {fileID: 618946848}
-  cvScore: {fileID: 429846761}
+  cgScore: {fileID: 429846761}
   txtScore: {fileID: 429846759}
+  cgButton: {fileID: 506659191}
   button: {fileID: 506659188}
   imgButton: {fileID: 506659189}
   txtButton: {fileID: 323361078}
-  cvDifficulty: {fileID: 272765899}
+  cgDifficulty: {fileID: 272765899}
   slrDifficulty: {fileID: 272765898}
 --- !u!1 &1675863469
 GameObject:
