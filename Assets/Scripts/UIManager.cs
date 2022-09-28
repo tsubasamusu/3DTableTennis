@@ -55,12 +55,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text txtButton;//ボタンのテキスト
 
-    [SerializeField]
-    private CanvasGroup cgDifficulty;//難易度のキャンバスグループ
-
-    [SerializeField]
-    private Slider slrDifficulty;//難易度のスライダー
-
     /// <summary>
     /// ロゴのスプライトを取得する
     /// </summary>
@@ -96,8 +90,8 @@ public class UIManager : MonoBehaviour
         //ボタンが押された際の処理を設定
         button.onClick.AddListener(() => ClickedButton());
 
-        //ボタンとスライダーを非活性化する
-        button.interactable = slrDifficulty.interactable = false;
+        //ボタンを非活性化する
+        button.interactable = false;
 
         //ロゴを非表示にする
         imgLogo.DOFade(0f, 0f)
@@ -105,14 +99,8 @@ public class UIManager : MonoBehaviour
             //ロゴを一定時間かけて表示する
             .OnComplete(() => imgLogo.DOFade(1f, 1f)
 
-            //難易度のキャンバスグループを一定時間かけて表示する
-            .OnComplete(() => cgDifficulty.DOFade(1f, 1f)
-
             .OnComplete(() =>
             {
-                //スライダーを活性化する
-                { slrDifficulty.interactable = true; }
-
                 //ボタンのイメージを一定時間かけて表示する
                 { imgButton.DOFade(1f, 1f); }
 
@@ -124,14 +112,11 @@ public class UIManager : MonoBehaviour
                     .OnComplete(() => button.interactable = true);
                 }
 
-            })));
+            }));
 
         //ボタンが押された際の処理
         void ClickedButton()
         {
-            //移動速度（難易度）を設定
-            GameData.instance.MoveSpeed = (0.1f * slrDifficulty.value) + 8.05f;
-
             //背景を一定時間かけて非表示にする
             imgBackground.DOFade(0f, 1f);
 
@@ -139,16 +124,13 @@ public class UIManager : MonoBehaviour
             imgLogo.DOFade(0f, 1f);
 
             //ボタンのキャンバスグループを一定時間かけて非表示にする
-            cgButton.DOFade(0f, 1f);
+            cgButton.DOFade(0f, 1f)
 
-            //ボタンのキャンバスグループを一定時間かけて非表示にする
-            cgDifficulty.DOFade(0f, 1f)
-                
                 //ゲームスタート演出が終了した状態に切り替える
                 .OnComplete(()=>end=true);
 
-            //ボタンとスライダーを非活性化する
-            button.interactable = slrDifficulty.interactable = false;
+            //ボタンを非活性化する
+            button.interactable = false;
         }
 
         //ゲームスタート演出が終わるまで待つ
