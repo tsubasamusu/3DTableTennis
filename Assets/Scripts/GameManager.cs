@@ -38,28 +38,25 @@ public class GameManager : MonoBehaviour
     private void SetUpControllers()
     {
         //登録されているコントローラーの数だけ繰り返す
-        for(int i = 0; i < controllersList.Count; i++)
+        for (int i = 0; i < controllersList.Count; i++)
         {
             //ControllerBaseの初期設定を行う    
             controllersList[i].SetUpControllerBase();
-            
-            //各コントローラー固有の初期設定を行う
-            {
-                //PlayerControllerを取得出来たら
-                if (controllersList[i].TryGetComponent(out PlayerController playerController))
-                {
-                    //PlayerControllerの初期設定を行う
-                    playerController.SetUpPlayerController();
 
-                    //BallControllerの初期設定を行う
-                    ballController.SetUpBallController(playerController);
-                }
-                //EnemyControllerを取得できたら
-                else if (controllersList[i].TryGetComponent(out EnemyController enemyController))
-                {
-                    //EnemyControllerの初期設定を行う
-                    enemyController.SetUpEnemyController(ballController);
-                }
+            //PlayerControllerを取得出来たら
+            if (controllersList[i].TryGetComponent(out PlayerController playerController))
+            {
+                //PlayerControllerの初期設定を行う
+                playerController.SetUpPlayerController();
+
+                //BallControllerの初期設定を行う
+                ballController.SetUpBallController(playerController);
+            }
+            //EnemyControllerを取得できたら
+            else if (controllersList[i].TryGetComponent(out EnemyController enemyController))
+            {
+                //EnemyControllerの初期設定を行う
+                enemyController.SetUpEnemyController(ballController);
             }
         }
     }

@@ -164,11 +164,11 @@ public class UIManager : MonoBehaviour
         //ボタンを非活性化する
         button.interactable = false;
 
-        //背景を一定時間かけて表示する
-        imgBackground.DOFade(1f,1f)
-
         //ロゴを非表示にする
-        .OnComplete(()=> imgLogo.DOFade(0f, 0f)
+        imgLogo.DOFade(0f, 0f)
+
+        //背景を一定時間かけて表示する
+        .OnComplete(() => imgBackground.DOFade(1f, 1f)
 
             //ロゴを一定時間かけて表示する
             .OnComplete(() => imgLogo.DOFade(1f, 1f)
@@ -208,6 +208,77 @@ public class UIManager : MonoBehaviour
         }
 
         //ゲームオーバー演出が終わるまで待つ
+        yield return new WaitUntil(() => end == true);
+    }
+
+    /// <summary>
+    /// ゲームクリア演出を行う
+    /// </summary>
+    /// <returns>待ち時間</returns>
+    public IEnumerator PlayGameClear()
+    {
+        //ゲームクリア演出終了判定用
+        bool end = false;
+
+        //背景を白色に設定
+        imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 0f);
+
+        //ロゴをゲームクリアに設定
+        imgLogo.sprite = GetLogoSprite(LogoType.GameClear);
+
+        //ボタンを黄色に設定
+        imgButton.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0f);
+
+        //ボタンのテキストを「Restart」に設定
+        txtButton.text = "Restart";
+
+        //ボタンが押された際の処理を設定
+        button.onClick.AddListener(() => ClickedButton());
+
+        //ボタンを非活性化する
+        button.interactable = false;
+
+        //ロゴを非表示にする
+        imgLogo.DOFade(0f, 0f)
+
+        //背景を一定時間かけて表示する
+        .OnComplete(() => imgBackground.DOFade(1f, 1f)
+
+            //ロゴを一定時間かけて表示する
+            .OnComplete(() => imgLogo.DOFade(1f, 1f)
+
+            .OnComplete(() =>
+            {
+                //ボタンのイメージを一定時間かけて表示する
+                { imgButton.DOFade(1f, 1f); }
+
+                {
+                    //ボタンのキャンバスグループを一定時間かけて表示する
+                    cgButton.DOFade(1f, 1f)
+
+                    //ボタンを活性化する
+                    .OnComplete(() => button.interactable = true);
+                }
+
+            })));
+
+        //ボタンが押された際の処理
+        void ClickedButton()
+        {
+            //ロゴを一定時間かけて非表示にする
+            imgLogo.DOFade(0f, 1f);
+
+            //ボタンのキャンバスグループを一定時間かけて非表示にする
+            cgButton.DOFade(0f, 1f)
+
+                //ゲームスタート演出が終了した状態に切り替える
+                .OnComplete(() => end = true);
+
+            //ボタンを非活性化する
+            button.interactable = false;
+        }
+
+        //ゲームクリア演出が終わるまで待つ
         yield return new WaitUntil(() => end == true);
     }
 }
