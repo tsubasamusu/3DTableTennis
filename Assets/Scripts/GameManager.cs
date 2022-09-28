@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         SetUpControllers();
 
         //ScoreManagerの初期設定を行う
-        scoreManager.SetUpScoreManager(ballController);
+        scoreManager.SetUpScoreManager(ballController,uiManager);
 
         //ゲームスタート演出が終わるまで待つ
         yield return uiManager.PlayGameStart();

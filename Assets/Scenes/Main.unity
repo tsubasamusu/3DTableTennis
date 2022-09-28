@@ -3150,7 +3150,7 @@ MonoBehaviour:
   gravity: 10
   ballSpeed: 6
   enemyShotRange: 1.5
-  enemyServeTime: 1
+  enemyServeTime: 2
 --- !u!1 &1289152545
 GameObject:
   m_ObjectHideFlags: 0

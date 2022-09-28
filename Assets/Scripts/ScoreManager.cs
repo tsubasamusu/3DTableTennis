@@ -15,7 +15,8 @@ public class ScoreManager : MonoBehaviour
     /// ScoreManagerの初期設定を行う
     /// </summary>
     /// <param name="ballController">BallController</param>
-    public void SetUpScoreManager(BallController ballController)
+    /// <param name="uIManager">UIManager</param>
+    public void SetUpScoreManager(BallController ballController,UIManager uIManager)
     {
         //得点の更新の確認を開始する
         StartCoroutine(CheckScore());
@@ -37,7 +38,7 @@ public class ScoreManager : MonoBehaviour
                 }
 
                 //得点を更新
-                UpdateScore(ballController.CurrentOwner == OwnerType.Player ? (0, 1) : (1, 0));
+                UpdateScore(ballController.CurrentOwner == OwnerType.Player ? (0, 1) : (1, 0),uIManager);
 
                 //ボールの動きを止める
                 ballController.PrepareRestartGame(GetAppropriatServer(ballController));
@@ -73,12 +74,16 @@ public class ScoreManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 得点を更新する
+    /// 得点の記録を更新する
     /// </summary>
-    /// <param name="value">更新量</param>
-    private void UpdateScore((int playerValue,int enemyValue) value)
+    /// <param name="updateValue">更新量</param>
+    /// <param name="uIManager">UIManager</param>
+    private void UpdateScore((int playerUpdateValue,int enemyUpdateValue) updateValue,UIManager uIManager)
     {
-        //得点を更新
-        GameData.instance.score = value;
+        //プレイヤーの得点を更新
+        GameData.instance.score.playerScore += updateValue.playerUpdateValue;
+
+        //エネミーの得点を更新
+        GameData.instance.score.enemyScore+=updateValue.enemyUpdateValue;
     }
 }

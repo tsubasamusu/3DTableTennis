@@ -281,4 +281,14 @@ public class UIManager : MonoBehaviour
         //ゲームクリア演出が終わるまで待つ
         yield return new WaitUntil(() => end == true);
     }
+
+    /// <summary>
+    /// 得点の表示を更新する
+    /// </summary>
+    /// <param name="score">得点</param>
+    public void UpdateTxtScore((int playerScore,int enemyScore) score)
+    {
+        //得点のテキストを設定する
+        txtScore.text=score.playerScore.ToString()+":"+score.enemyScore.ToString();
+    }
 }
