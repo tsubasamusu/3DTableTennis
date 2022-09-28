@@ -136,4 +136,78 @@ public class UIManager : MonoBehaviour
         //ゲームスタート演出が終わるまで待つ
         yield return new WaitUntil(() => end == true);
     }
+
+    /// <summary>
+    /// ゲームオーバー演出を行う
+    /// </summary>
+    /// <returns>待ち時間</returns>
+    public IEnumerator PlayGameOver()
+    {
+        //ゲームオーバー演出終了判定用
+        bool end = false;
+
+        //背景を黒色に設定
+        imgBackground.color = new Color(Color.black.r,Color.black.g,Color.black.b,0f);
+
+        //ロゴをゲームオーバーに設定
+        imgLogo.sprite = GetLogoSprite(LogoType.GameOver);
+
+        //ボタンを赤色に設定
+        imgButton.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0f);
+
+        //ボタンのテキストを「Restart」に設定
+        txtButton.text = "Restart";
+
+        //ボタンが押された際の処理を設定
+        button.onClick.AddListener(() => ClickedButton());
+
+        //ボタンを非活性化する
+        button.interactable = false;
+
+        //背景を一定時間かけて表示する
+        imgBackground.DOFade(1f,1f)
+
+        //ロゴを非表示にする
+        .OnComplete(()=> imgLogo.DOFade(0f, 0f)
+
+            //ロゴを一定時間かけて表示する
+            .OnComplete(() => imgLogo.DOFade(1f, 1f)
+
+            .OnComplete(() =>
+            {
+                //ボタンのイメージを一定時間かけて表示する
+                { imgButton.DOFade(1f, 1f); }
+
+                {
+                    //ボタンのキャンバスグループを一定時間かけて表示する
+                    cgButton.DOFade(1f, 1f)
+
+                    //ボタンを活性化する
+                    .OnComplete(() => button.interactable = true);
+                }
+
+            })));
+
+        //ボタンが押された際の処理
+        void ClickedButton()
+        {
+            //背景を一定時間かけて白色にする
+            imgBackground.DOColor(Color.white, 1f);
+
+            //ロゴを一定時間かけて非表示にする
+            imgLogo.DOFade(0f, 1f);
+
+            //ボタンのキャンバスグループを一定時間かけて非表示にする
+            cgButton.DOFade(0f, 1f)
+
+                //ゲームスタート演出が終了した状態に切り替える
+                .OnComplete(() => end = true);
+
+            //ボタンを非活性化する
+            button.interactable = false;
+        }
+
+        //ゲームオーバー演出が終わるまで待つ
+        yield return new WaitUntil(() => end == true);
+    }
 }
