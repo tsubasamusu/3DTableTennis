@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private UIManager uiManager;//UIManager
 
+    private PlayerController playerController;//PlayerController
+
     /// <summary>
     /// ゲーム開始直後に呼び出される
     /// </summary>
@@ -26,10 +28,13 @@ public class GameManager : MonoBehaviour
         SetUpControllers();
 
         //ScoreManagerの初期設定を行う
-        scoreManager.SetUpScoreManager(ballController,uiManager);
+        scoreManager.SetUpScoreManager(ballController, uiManager);
 
         //ゲームスタート演出が終わるまで待つ
         yield return uiManager.PlayGameStart();
+
+        //PlayerControllerを活性化する（プレイヤーの操作を許可する）
+        playerController.enabled = true;
     }
 
     /// <summary>
@@ -46,8 +51,14 @@ public class GameManager : MonoBehaviour
             //PlayerControllerを取得出来たら
             if (controllersList[i].TryGetComponent(out PlayerController playerController))
             {
+                //PlayerControllerを取得
+                this.playerController = playerController;
+
                 //PlayerControllerの初期設定を行う
                 playerController.SetUpPlayerController();
+
+                //PlayerControllerを非活性化する
+                playerController.enabled = false;
 
                 //BallControllerの初期設定を行う
                 ballController.SetUpBallController(playerController);
