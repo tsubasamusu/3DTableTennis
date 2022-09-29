@@ -161,6 +161,9 @@ public class UIManager : MonoBehaviour
         //ボタンのテキストを「Restart」に設定
         txtButton.text = "Restart";
 
+        //ボタンに登録されている処理を削除
+        button.onClick.RemoveAllListeners();
+
         //ボタンが押された際の処理を設定
         button.onClick.AddListener(() => ClickedButton());
 
@@ -206,7 +209,7 @@ public class UIManager : MonoBehaviour
             //ボタンのキャンバスグループを一定時間かけて非表示にする
             cgButton.DOFade(0f, 1f)
 
-                //ゲームスタート演出が終了した状態に切り替える
+                //ゲームオーバー演出が終了した状態に切り替える
                 .OnComplete(() => end = true);
 
             //ボタンを非活性化する
@@ -237,6 +240,9 @@ public class UIManager : MonoBehaviour
 
         //ボタンのテキストを「Restart」に設定
         txtButton.text = "Restart";
+
+        //ボタンに登録されている処理を削除
+        button.onClick.RemoveAllListeners();
 
         //ボタンが押された際の処理を設定
         button.onClick.AddListener(() => ClickedButton());
@@ -283,7 +289,7 @@ public class UIManager : MonoBehaviour
             //ボタンのキャンバスグループを一定時間かけて非表示にする
             cgButton.DOFade(0f, 1f)
 
-                //ゲームスタート演出が終了した状態に切り替える
+                //ゲームクリア演出が終了した状態に切り替える
                 .OnComplete(() => end = true);
 
             //ボタンを非活性化する
@@ -317,6 +323,13 @@ public class UIManager : MonoBehaviour
 
         //得点を一定時間、表示し続ける
         yield return new WaitForSeconds(0.25f + GameData.instance.DisplayScoreTime);
+
+        //プレイヤーが勝利したら
+        if (GameData.instance.score.playerScore == GameData.instance.MaxScore)
+        {
+            //以降の処理を行わない
+            yield break;
+        }
 
         //得点のキャンバスグループを一定時間かけて非表示にする
         cgScore.DOFade(0f, 0.25f);

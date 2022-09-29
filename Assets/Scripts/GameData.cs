@@ -49,6 +49,9 @@ public class GameData : MonoBehaviour
     [SerializeField,Header("得点を表示する時間")]
     private float displayScoreTime;
 
+    [SerializeField, Header("最高得点")]
+    private int maxScore;//最高得点
+
     [HideInInspector]
     public (int playerScore,int enemyScore) score;//得点
 
@@ -91,4 +94,9 @@ public class GameData : MonoBehaviour
     /// 「得点を表示する時間」の取得用
     /// </summary>
     public float DisplayScoreTime { get => displayScoreTime; } 
+
+    /// <summary>
+    /// 最高得点取得用
+    /// </summary>
+    public int MaxScore { get => maxScore; }
 }

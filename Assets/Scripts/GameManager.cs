@@ -1,5 +1,6 @@
 using System.Collections;//IEnumeratorを使用
 using System.Collections.Generic;//リストを使用
+using UnityEngine.SceneManagement;//LoadSceneメソッドを使用
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
 
     private PlayerController playerController;//PlayerController
 
+    private EnemyController enemyController;//EnemyController
+
     /// <summary>
     /// ゲーム開始直後に呼び出される
     /// </summary>
@@ -33,8 +36,8 @@ public class GameManager : MonoBehaviour
         //ゲームスタート演出が終わるまで待つ
         yield return uiManager.PlayGameStart();
 
-        //PlayerControllerを活性化する（プレイヤーの操作を許可する）
-        playerController.enabled = true;
+        //PlayerControllerとEnemyControllerを活性化する
+        playerController.enabled = enemyController.enabled = true;
     }
 
     /// <summary>
@@ -57,18 +60,78 @@ public class GameManager : MonoBehaviour
                 //PlayerControllerの初期設定を行う
                 playerController.SetUpPlayerController();
 
-                //PlayerControllerを非活性化する
-                playerController.enabled = false;
-
                 //BallControllerの初期設定を行う
                 ballController.SetUpBallController(playerController);
             }
             //EnemyControllerを取得できたら
             else if (controllersList[i].TryGetComponent(out EnemyController enemyController))
             {
+                //EnemyControllerを取得
+                this.enemyController = enemyController;
+
                 //EnemyControllerの初期設定を行う
                 enemyController.SetUpEnemyController(ballController);
             }
         }
+
+        //PlayerControllerとEnemyControllerを非活性化する
+        playerController.enabled = enemyController.enabled = false;
+    }
+
+    //TODO:リファクタリングの段階で、以降の処理をUniRxを使用して書き換える
+
+    private bool flag;//重複処理防止用
+
+    /// <summary>
+    /// 毎フレーム呼び出される
+    /// </summary>
+    private void Update()
+    {
+        //マッチポイントを取得
+        int matchPoints = GameData.instance.MaxScore-1;
+
+        //プレイヤーの得点も、エネミーの得点もマッチポイント以下なら
+        if (GameData.instance.score.playerScore <= matchPoints && GameData.instance.score.enemyScore <= matchPoints)
+        {
+            //以降の処理を行わない
+            return;
+        }
+
+        //flagがfalseなら
+        if (!flag)
+        {
+            //ゲーム終了の準備を行う
+            PrepareGameEnd();
+
+            //ゲーム終了演出を行う
+            StartCoroutine(PlayGameEndPerformance(GameData.instance.score.enemyScore == GameData.instance.MaxScore));
+
+            //flagにtrueを入れる
+            flag = true;
+        }
+    }
+
+    /// <summary>
+    /// ゲーム終了演出を行う
+    /// </summary>
+    /// <param name="isGameOverPerformance">行うゲーム終了演出がゲームオーバー演出かどうか</param>
+    /// <returns>待ち時間</returns>
+    private IEnumerator PlayGameEndPerformance(bool isGameOverPerformance)
+    {
+        //ゲーム終了演出を行う
+        yield return isGameOverPerformance ? uiManager.PlayGameOver() : uiManager.PlayGameClear();
+
+        //メインシーンを読み込む
+        SceneManager.LoadScene("Main");
+    }
+
+    /// <summary>
+    /// ゲーム終了の準備を行う
+    /// </summary>
+    private void PrepareGameEnd()
+    {
+        //PlayerControllerとEnemyControllerを非活性化する
+        playerController.enabled = enemyController.enabled = false;
     }
 }
+
