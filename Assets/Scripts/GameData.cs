@@ -46,6 +46,9 @@ public class GameData : MonoBehaviour
     [SerializeField,Header("エネミーがサーブを打つまでの時間")]
     private float enemyServeTime;//エネミーがサーブを打つまでの時間
 
+    [SerializeField,Header("得点を表示する時間")]
+    private float displayScoreTime;
+
     [HideInInspector]
     public (int playerScore,int enemyScore) score;//得点
 
@@ -83,4 +86,9 @@ public class GameData : MonoBehaviour
     /// 「エネミーがサーブを打つまでの時間」の取得用
     /// </summary>
     public float EnemyServeTime { get => enemyServeTime; }
+
+    /// <summary>
+    /// 「得点を表示する時間」の取得用
+    /// </summary>
+    public float DisplayScoreTime { get => displayScoreTime; } 
 }

@@ -16,7 +16,7 @@ public class ScoreManager : MonoBehaviour
     /// </summary>
     /// <param name="ballController">BallController</param>
     /// <param name="uIManager">UIManager</param>
-    public void SetUpScoreManager(BallController ballController,UIManager uIManager)
+    public void SetUpScoreManager(BallController ballController, UIManager uIManager)
     {
         //得点の更新の確認を開始する
         StartCoroutine(CheckScore());
@@ -25,7 +25,7 @@ public class ScoreManager : MonoBehaviour
         IEnumerator CheckScore()
         {
             //無限に繰り返す
-            while(true)
+            while (true)
             {
                 //ボールが床に落ちていないなら
                 if (ballController.transform.position.y > 0.25f)
@@ -37,11 +37,11 @@ public class ScoreManager : MonoBehaviour
                     continue;
                 }
 
-                //得点を更新
-                UpdateScore(ballController.CurrentOwner == OwnerType.Player ? (0, 1) : (1, 0),uIManager);
+                //得点の記録を更新
+                UpdateScore(GetUpadateValue(ballController), uIManager);
 
                 //ボールの動きを止める
-                ballController.PrepareRestartGame(GetAppropriatServer(ballController));
+                ballController.PrepareRestartGame(GetAppropriatServer());
 
                 //次のフレームへ飛ばす（実質、Updateメソッド）
                 yield return null;
@@ -52,15 +52,14 @@ public class ScoreManager : MonoBehaviour
     /// <summary>
     /// 適切なサーバーを取得する（ボールが落下した際に呼び出だされる）
     /// </summary>
-    /// <param name="ballController">BallController</param>
     /// <returns>適切なサーバー</returns>
-    private OwnerType GetAppropriatServer(BallController ballController)
-    { 
+    private OwnerType GetAppropriatServer()
+    {
         //サーブ回数を記録
         count++;
 
         //まだ2本サーブを打っていないなら
-        if (count<2)
+        if (count < 2)
         {
             //サーバーを変更しない
             return server;
@@ -70,7 +69,7 @@ public class ScoreManager : MonoBehaviour
         count = 0;
 
         //サーバーを変えて、記録する
-        return server= server == OwnerType.Player ? OwnerType.Enemy : OwnerType.Player;
+        return server = server == OwnerType.Player ? OwnerType.Enemy : OwnerType.Player;
     }
 
     /// <summary>
@@ -78,12 +77,32 @@ public class ScoreManager : MonoBehaviour
     /// </summary>
     /// <param name="updateValue">更新量</param>
     /// <param name="uIManager">UIManager</param>
-    private void UpdateScore((int playerUpdateValue,int enemyUpdateValue) updateValue,UIManager uIManager)
+    private void UpdateScore((int playerUpdateValue, int enemyUpdateValue) updateValue, UIManager uIManager)
     {
         //プレイヤーの得点を更新
         GameData.instance.score.playerScore += updateValue.playerUpdateValue;
 
         //エネミーの得点を更新
-        GameData.instance.score.enemyScore+=updateValue.enemyUpdateValue;
+        GameData.instance.score.enemyScore += updateValue.enemyUpdateValue;
+
+        //得点の表示の更新をする準備を行う
+        uIManager.PrepareUpdateTxtScore();
+    }
+
+    /// <summary>
+    /// 得点の更新量を取得する
+    /// </summary>
+    /// <param name="ballController">BallController</param>
+    /// <returns>得点の更新量</returns>
+    private (int playerUpdateValue, int enemyUpdateValue) GetUpadateValue(BallController ballController)
+    {
+        //コートに入ったかどうかで処理を変更
+        return ballController.InCourt ?
+
+            //ボールの所有者に応じて戻り値を変更
+            ballController.CurrentOwner == OwnerType.Player ? (1, 0) : (0, 1)
+
+            //ボールの所有者に応じて戻り値を変更
+            : ballController.CurrentOwner == OwnerType.Player ? (0, 1) : (1, 0);
     }
 }

@@ -75,6 +75,9 @@ public class UIManager : MonoBehaviour
         //ゲームスタート演出終了判定用
         bool end = false;
 
+        //得点のキャンバスグループを非表示にする
+        cgScore.alpha = 0f;
+
         //背景を白色に設定
         imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
 
@@ -127,7 +130,7 @@ public class UIManager : MonoBehaviour
             cgButton.DOFade(0f, 1f)
 
                 //ゲームスタート演出が終了した状態に切り替える
-                .OnComplete(()=>end=true);
+                .OnComplete(() => end = true);
 
             //ボタンを非活性化する
             button.interactable = false;
@@ -147,7 +150,7 @@ public class UIManager : MonoBehaviour
         bool end = false;
 
         //背景を黒色に設定
-        imgBackground.color = new Color(Color.black.r,Color.black.g,Color.black.b,0f);
+        imgBackground.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
 
         //ロゴをゲームオーバーに設定
         imgLogo.sprite = GetLogoSprite(LogoType.GameOver);
@@ -163,6 +166,9 @@ public class UIManager : MonoBehaviour
 
         //ボタンを非活性化する
         button.interactable = false;
+
+        //得点のキャンバスグループを一定時間かけて非表示にする
+        cgScore.DOFade(0f, 1f);
 
         //ロゴを非表示にする
         imgLogo.DOFade(0f, 0f)
@@ -238,6 +244,9 @@ public class UIManager : MonoBehaviour
         //ボタンを非活性化する
         button.interactable = false;
 
+        //得点のテキストを一定時間かけて青色に変える
+        txtScore.DOColor(Color.blue, 2f);
+
         //ロゴを非表示にする
         imgLogo.DOFade(0f, 0f)
 
@@ -265,6 +274,9 @@ public class UIManager : MonoBehaviour
         //ボタンが押された際の処理
         void ClickedButton()
         {
+            //得点のキャンバスグループを一定時間かけて非表示にする
+            cgScore.DOFade(0f, 1f);
+
             //ロゴを一定時間かけて非表示にする
             imgLogo.DOFade(0f, 1f);
 
@@ -283,12 +295,30 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 得点の表示を更新する準備を行う
+    /// </summary>
+    public void PrepareUpdateTxtScore()
+    {
+        //得点の表示を更新する
+        StartCoroutine(UpDateTxtScore());
+    }
+
+    /// <summary>
     /// 得点の表示を更新する
     /// </summary>
-    /// <param name="score">得点</param>
-    public void UpdateTxtScore((int playerScore,int enemyScore) score)
+    /// <returns>待ち時間</returns>
+    private IEnumerator UpDateTxtScore()
     {
         //得点のテキストを設定する
-        txtScore.text=score.playerScore.ToString()+":"+score.enemyScore.ToString();
+        txtScore.text = GameData.instance.score.playerScore.ToString() + ":" + GameData.instance.score.enemyScore.ToString();
+
+        //得点のキャンバスグループを一定時間かけて表示する
+        cgScore.DOFade(1f, 0.25f);
+
+        //得点を一定時間、表示し続ける
+        yield return new WaitForSeconds(0.25f + GameData.instance.DisplayScoreTime);
+
+        //得点のキャンバスグループを一定時間かけて非表示にする
+        cgScore.DOFade(0f, 0.25f);
     }
 }
