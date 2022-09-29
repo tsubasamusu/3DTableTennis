@@ -13,8 +13,8 @@ public class SoundDataSO : ScriptableObject
     {
         MainBGM,//メインBGM
         GameStartSE,//ゲームスタート音
+        GameRestartSE,//ゲーム再スタート音
         GameOverSE,//ゲームオーバー音
-        GameClearSE,//ゲームクリア音
         PlayerPointSE,//プレイヤーが得点した時の音
         EnemyPointSE,//エネミーが得点した時の音
         RacketSE,//ボールがラケットに当たった時の音
