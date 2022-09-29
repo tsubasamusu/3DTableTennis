@@ -78,39 +78,6 @@ public class GameManager : MonoBehaviour
         playerController.enabled = enemyController.enabled = false;
     }
 
-    //TODO:リファクタリングの段階で、以降の処理をUniRxを使用して書き換える
-
-    private bool flag;//重複処理防止用
-
-    /// <summary>
-    /// 毎フレーム呼び出される
-    /// </summary>
-    private void Update()
-    {
-        //マッチポイントを取得
-        int matchPoints = GameData.instance.MaxScore-1;
-
-        //プレイヤーの得点も、エネミーの得点もマッチポイント以下なら
-        if (GameData.instance.score.playerScore <= matchPoints && GameData.instance.score.enemyScore <= matchPoints)
-        {
-            //以降の処理を行わない
-            return;
-        }
-
-        //flagがfalseなら
-        if (!flag)
-        {
-            //ゲーム終了の準備を行う
-            PrepareGameEnd();
-
-            //ゲーム終了演出を行う
-            StartCoroutine(PlayGameEndPerformance(GameData.instance.score.enemyScore == GameData.instance.MaxScore));
-
-            //flagにtrueを入れる
-            flag = true;
-        }
-    }
-
     /// <summary>
     /// ゲーム終了演出を行う
     /// </summary>
@@ -132,6 +99,39 @@ public class GameManager : MonoBehaviour
     {
         //PlayerControllerとEnemyControllerを非活性化する
         playerController.enabled = enemyController.enabled = false;
+    }
+
+    //TODO:リファクタリングの段階で、以降の処理をUniRxを使用して書き換える
+
+    private bool flag;//重複処理防止用
+
+    /// <summary>
+    /// 毎フレーム呼び出される
+    /// </summary>
+    private void Update()
+    {
+        //マッチポイントを取得
+        int matchPoints = GameData.instance.MaxScore - 1;
+
+        //プレイヤーの得点も、エネミーの得点もマッチポイント以下なら
+        if (GameData.instance.score.playerScore <= matchPoints && GameData.instance.score.enemyScore <= matchPoints)
+        {
+            //以降の処理を行わない
+            return;
+        }
+
+        //flagがfalseなら
+        if (!flag)
+        {
+            //ゲーム終了の準備を行う
+            PrepareGameEnd();
+
+            //ゲーム終了演出を行う
+            StartCoroutine(PlayGameEndPerformance(GameData.instance.score.enemyScore == GameData.instance.MaxScore));
+
+            //flagにtrueを入れる
+            flag = true;
+        }
     }
 }
 
