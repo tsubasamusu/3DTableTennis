@@ -204,6 +204,9 @@ public class BallController : MonoBehaviour
         //ボールの動きを止める
         stopMove = true;
 
+        //コートに入らない状態にする（ボールの状態を初期化）
+        inCourt = false;
+
         //サーブをする人に応じてボールの位置を変更
         transform.position = new Vector3(0f, 1f, server == OwnerType.Player ? -3f : 3f);
 
@@ -214,7 +217,7 @@ public class BallController : MonoBehaviour
         playerController.ResetPlayerPos();
 
         //サーバーがエネミーなら
-        if(server==OwnerType.Enemy)
+        if (server == OwnerType.Enemy)
         {
             //一定時間待つ（エネミーがサーブを打つまでの時間を設ける）
             yield return new WaitForSeconds(GameData.instance.EnemyServeTime);
