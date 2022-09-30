@@ -1,5 +1,5 @@
-using UnityEngine;
 using DG.Tweening;//DOTweenを使用
+using UnityEngine;
 
 /// <summary>
 /// ラケットの動きを制御する
