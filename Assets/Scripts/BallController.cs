@@ -12,9 +12,7 @@ public class BallController : MonoBehaviour
     [SerializeField]
     private BoundPoint enemyBoundPoint;//エネミー用の跳ねる位置
 
-    private OwnerType currentOwner = OwnerType.Enemy;//現在の弾の所有者
-
-    private Vector3 currentBoundPos;//現在の跳ねる位置
+    private OwnerType currentOwner = OwnerType.Enemy;//現在の弾の所有者（初期値はエネミー）
 
     private bool inCourt;//コートに入るかどうか
 
@@ -44,7 +42,8 @@ public class BallController : MonoBehaviour
     /// <summary>
     /// ボールを打つ
     /// </summary>
-    public void ShotBall()
+    /// <param name="boundPos">跳ねる位置</param>
+    public void ShotBall(Vector3 boundPos)
     {
         //効果音を再生していない状態に切り替える
         playedBoundSE = false;
@@ -65,7 +64,7 @@ public class BallController : MonoBehaviour
         if (!Physics.Raycast(ray, out RaycastHit hit, 10f))
         {
             //ボールを移動させる準備を行う
-            PrepareMoveBall();
+            PrepareMoveBall(boundPos);
 
             //以降の処理を行わない
             return;
@@ -75,7 +74,7 @@ public class BallController : MonoBehaviour
         if (!hit.transform.TryGetComponent(out BoundPoint boundPoint))
         {
             //ボールを移動させる準備を行う
-            PrepareMoveBall();
+            PrepareMoveBall(boundPos);
 
             //以降の処理を行わない
             return;
@@ -88,18 +87,19 @@ public class BallController : MonoBehaviour
             inCourt = true;
 
             //ボールを移動させる準備を行う
-            PrepareMoveBall();
+            PrepareMoveBall(boundPos);
         }
     }
 
     /// <summary>
     /// 適切なy座標を取得する
     /// </summary>
+    /// <param name="boundPos">跳ねる位置</param>
     /// <returns>適切なy座標</returns>
-    private float GetAppropriatePosY()
+    private float GetAppropriatePosY(Vector3 boundPos)
     {
         //跳ねる位置との距離を取得
-        float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f)) - Vector3.Scale(currentBoundPos, new Vector3(1f, 0f, 1f))).magnitude);
+        float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f)) - Vector3.Scale(boundPos, new Vector3(1f, 0f, 1f))).magnitude);
 
         //コートに入らず、一定以下の低さになったら
         if (!inCourt && transform.position.y <= 0.8f)
@@ -115,17 +115,19 @@ public class BallController : MonoBehaviour
     /// <summary>
     /// ボールを移動させる準備を行う
     /// </summary>
-    private void PrepareMoveBall()
+    /// <param name="boundPos">跳ねる位置</param>
+    private void PrepareMoveBall(Vector3 boundPos)
     {
         //ボールを移動させる
-        StartCoroutine(MoveBall());
+        StartCoroutine(MoveBall(boundPos));
     }
 
     /// <summary>
     /// ボールを移動させる
     /// </summary>
+    /// <param name="boundPos">跳ねる位置</param>
     /// <returns>待ち時間</returns>
-    private IEnumerator MoveBall()
+    private IEnumerator MoveBall(Vector3 boundPos)
     {
         //ボールの所有者を保持
         OwnerType ownerType = currentOwner;
@@ -144,7 +146,7 @@ public class BallController : MonoBehaviour
             transform.position += transform.forward * GameData.instance.BallSpeed * Time.deltaTime;
 
             //y座標を更新する
-            transform.position = new Vector3(transform.position.x, Mathf.Clamp(GetAppropriatePosY(), 0.25f, 10f), transform.position.z);
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(GetAppropriatePosY(boundPos), 0.25f, 10f), transform.position.z);
 
             //効果音再生後なら
             if (playedBoundSE)
@@ -207,13 +209,13 @@ public class BallController : MonoBehaviour
             transform.eulerAngles = new Vector3(0f, racketController.transform.root.transform.eulerAngles.y, 0f);
 
             //ボールの所有者に応じて取得する跳ねる位置を変更
-            currentBoundPos = (currentOwner == OwnerType.Player ? playerBoundPoint : enemyBoundPoint)
+            Vector3 boundPos = (currentOwner == OwnerType.Player ? playerBoundPoint : enemyBoundPoint)
 
                 //仮想の跳ねる位置を取得
                 .GetVirtualBoundPointPos(transform, racketController.transform.root.transform.eulerAngles.y);
 
             //ボールを打つ
-            ShotBall();
+            ShotBall(boundPos);
         }
     }
 
