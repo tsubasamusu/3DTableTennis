@@ -8,10 +8,8 @@ public class BoundPoint : MonoBehaviour
     [SerializeField,Header("誰のコートか")]
     private OwnerType ownerType;//所有者の種類
 
-    [SerializeField]
-    private Transform virtualBoundPoint;//仮想位置
-
-    private Transform virtualBoundPointTran;//仮想位置の保持用
+    [SerializeField,Header("仮想位置")]
+    private Transform virtualBoundPointTran;//仮想位置
 
     /// <summary>
     /// コートの所有者を取得する
@@ -31,13 +29,6 @@ public class BoundPoint : MonoBehaviour
     /// <returns>跳ねる位置の仮想位置/returns>
     public Vector3 GetVirtualBoundPointPos(Transform ballTran, float angleY)
     {
-        //まだ仮想位置を生成していないなら
-        if(virtualBoundPointTran==null)
-        {
-            //仮想位置を生成
-            virtualBoundPointTran = Instantiate(virtualBoundPoint,transform.position,Quaternion.identity);
-        }
-
         //仮想位置の親をボールに設定
         virtualBoundPointTran.SetParent(ballTran);
 
