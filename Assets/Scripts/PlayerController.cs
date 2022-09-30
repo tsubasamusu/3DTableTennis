@@ -5,8 +5,6 @@ using UnityEngine;
 /// </summary>
 public class PlayerController : ControllerBase
 {
-    private Transform mainCameraTran;//メインカメラの位置情報
-
     private Vector3 firstPos;//プレイヤーの初期位置
 
     /// <summary>
@@ -14,9 +12,6 @@ public class PlayerController : ControllerBase
     /// </summary>
     public void SetUpPlayerController()
     {
-        //メインカメラの位置情報を取得
-        mainCameraTran = Camera.main.transform;
-
         //プレイヤーの初期位置を取得
         firstPos = transform.position;
     }
@@ -43,7 +38,7 @@ public class PlayerController : ControllerBase
         Vector3 movement = new Vector3(moveH, 0, moveV);
 
         //移動方向を取得し、返す
-        return mainCameraTran.forward * movement.z + mainCameraTran.right * movement.x;
+        return Camera.main.transform.forward * movement.z + Camera.main.transform.right * movement.x;
     }
 
     /// <summary>
@@ -71,7 +66,7 @@ public class PlayerController : ControllerBase
     protected override void SetCharaDirection()
     {
         //キャラクターの向きを設定する
-        transform.eulerAngles = new Vector3(0f, mainCameraTran.eulerAngles.y, 0f);
+        transform.eulerAngles = new Vector3(0f, Camera.main.transform.eulerAngles.y, 0f);
     }
 
     /// <summary>
