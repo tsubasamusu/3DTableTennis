@@ -957,9 +957,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 359804332}
-  - component: {fileID: 359804335}
   - component: {fileID: 359804334}
   - component: {fileID: 359804333}
+  - component: {fileID: 359804335}
   m_Layer: 2
   m_Name: EnemyRacket
   m_TagString: Untagged
@@ -1022,7 +1022,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 359804331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa1c0519ba4003146b25af0dcc9e4f68, type: 3}
+  m_Script: {fileID: 11500000, guid: 439b051db0a732849a553dabfb04bdbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ownerType: 1
@@ -2659,7 +2659,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1568661535}
   - {fileID: 1351139366}
   - {fileID: 1500662235}
   m_Father: {fileID: 0}
@@ -2845,9 +2844,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 957854674}
-  - component: {fileID: 957854677}
   - component: {fileID: 957854676}
   - component: {fileID: 957854675}
+  - component: {fileID: 957854677}
   m_Layer: 2
   m_Name: PlayerRacket
   m_TagString: Untagged
@@ -2910,7 +2909,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 957854673}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa1c0519ba4003146b25af0dcc9e4f68, type: 3}
+  m_Script: {fileID: 11500000, guid: 439b051db0a732849a553dabfb04bdbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ownerType: 0
@@ -4680,7 +4679,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 906600892}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1359341370
 GameObject:
@@ -5250,7 +5249,7 @@ Transform:
   - {fileID: 1765565633}
   - {fileID: 1086548273}
   m_Father: {fileID: 906600892}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1532931623
 GameObject:
@@ -5472,8 +5471,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 906600892}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1568661536
 MonoBehaviour:
@@ -5484,7 +5483,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1568661534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2655b919ec199164a806c196e23e822f, type: 3}
+  m_Script: {fileID: 11500000, guid: e4a5f4636810de3448de6330d0d3ffd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prepareRacketTime: 0.1
@@ -5496,7 +5495,11 @@ MonoBehaviour:
   enemyServeTime: 2
   displayScoreTime: 2
   fadeOutTime: 0.5
-  maxScore: 1
+  maxScore: 11
+  PlayerScore:
+    value: 0
+  EnemyScore:
+    value: 0
 --- !u!1 &1590548083
 GameObject:
   m_ObjectHideFlags: 0

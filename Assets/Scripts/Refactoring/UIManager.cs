@@ -4,6 +4,7 @@ using System;//Serializable属性を使用
 using UnityEngine.UI;//UIを使用
 using DG.Tweening;//DOTweenを使用
 using UnityEngine;
+using UniRx;
 
 namespace yamap {
 
@@ -385,20 +386,38 @@ namespace yamap {
 
         /// <summary>
         /// 得点の表示を更新する準備を行う
+        /// 従来の処理(UI 表示部分と、演出部分を分ける)
         /// </summary>
-        public void PrepareUpdateTxtScore() {
+        public void UpdateTxtScore() {
+
+            //得点のテキストを設定する
+            txtScore.text = GameData.instance.score.playerScore.ToString() + ":" + GameData.instance.score.enemyScore.ToString();
+
             //得点の表示を更新する
-            StartCoroutine(UpDateTxtScore());
+            StartCoroutine(PlayScoreEffect());
         }
 
         /// <summary>
         /// 得点の表示を更新する
+        /// ReactiveProperty の購読により、値更新時にイベントとして自動的に実行される
+        /// </summary>
+        /// <param name="playerScore"></param>
+        /// <param name="enemyScore"></param>
+        public void UpdateDisplayScoreObservable(int playerScore, int enemyScore) {
+
+            // ReactiveProperty で購読している情報を受け取り、表示を更新(View 側)
+            txtScore.text = playerScore + " : " + enemyScore;
+
+            //得点の表示を更新する
+            StartCoroutine(PlayScoreEffect());
+        }
+
+        /// <summary>
+        /// 得点更新時の演出
         /// </summary>
         /// <returns>待ち時間</returns>
-        private IEnumerator UpDateTxtScore() {
-            //得点のテキストを設定する
-            txtScore.text = GameData.instance.score.playerScore.ToString() + ":" + GameData.instance.score.enemyScore.ToString();
-
+        private IEnumerator PlayScoreEffect() {
+            
             //得点のキャンバスグループを一定時間かけて表示する
             cgScore.DOFade(1f, 0.25f);
 

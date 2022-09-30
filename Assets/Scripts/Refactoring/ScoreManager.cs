@@ -1,5 +1,5 @@
-//using System.Collections;//IEnumeratorを使用
 using UnityEngine;
+using UniRx;　　　//　宣言追加
 
 namespace yamap {
 
@@ -10,6 +10,16 @@ namespace yamap {
 
         private BallController ballController;
 
+        // ReactiveProperty　(Model)
+        // その②の実装時に使う
+        public ReactiveProperty<int> PlayerScore = new();
+        public ReactiveProperty<int> EnemyScore = new();
+
+
+        void Reset() {
+            PlayerScore = new(0);
+            EnemyScore = new(0);
+        }
 
 
         /// <summary>
@@ -21,8 +31,9 @@ namespace yamap {
             //得点の更新の確認を開始する
             //StartCoroutine(CheckScore());
 
-
             this.ballController = ballController;
+
+            Reset();
         }
 
 
@@ -37,8 +48,22 @@ namespace yamap {
             //プレイヤーの得点を更新
             GameData.instance.score.playerScore += updateValue.playerUpdateValue;
 
-            //エネミーの得点を更新
+            ///エネミーの得点を更新
             GameData.instance.score.enemyScore += updateValue.enemyUpdateValue;
+
+
+
+            // ReactiveProperty を GameData で利用している場合(その①での実装時)
+            GameData.instance.PlayerScore.Value += updateValue.playerUpdateValue;
+            
+            GameData.instance.EnemyScore.Value += updateValue.enemyUpdateValue;
+
+
+
+            // ScoreManager で ReactiveProperty を利用している場合(その②での実装時)
+            PlayerScore.Value += updateValue.playerUpdateValue;
+
+            EnemyScore.Value += updateValue.enemyUpdateValue;
         }
 
         /// <summary>
