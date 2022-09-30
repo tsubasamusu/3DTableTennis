@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -35,7 +33,7 @@ public class ControllerBase : MonoBehaviour
         SetCharaDirection();
 
         //ラケットを振っている最中なら
-        if(!racketController.IsIdle)
+        if (!racketController.IsIdle)
         {
             //以降の処理を行わない
             return;
@@ -43,7 +41,7 @@ public class ControllerBase : MonoBehaviour
 
         //移動する
         Move();
-        
+
         //ラケットを制御する
         ControlRacket();
     }

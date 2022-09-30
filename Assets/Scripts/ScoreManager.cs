@@ -1,5 +1,4 @@
 using System.Collections;//IEnumerator‚ðŽg—p
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>

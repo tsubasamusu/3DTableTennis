@@ -149,7 +149,7 @@ public class BallController : MonoBehaviour
             //効果音再生後なら
             if (playedBoundSE)
             {
-                //次のフレームへ飛ばす（実質、Updateメソッド）
+                //1フレーム待つ（実質、Updateメソッド）
                 yield return null;
 
                 //次の繰り返し処理に移る
@@ -159,7 +159,7 @@ public class BallController : MonoBehaviour
             //コートに入らないなら
             if (!InCourt)
             {
-                //次のフレームへ飛ばす（実質、Updateメソッド）
+                //1フレーム待つ（実質、Updateメソッド）
                 yield return null;
 
                 //次の繰り返し処理に移る
@@ -176,7 +176,7 @@ public class BallController : MonoBehaviour
                 playedBoundSE = true;
             }
 
-            //次のフレームへ飛ばす（実質、Updateメソッド）
+            //1フレーム待つ（実質、Updateメソッド）
             yield return null;
         }
     }

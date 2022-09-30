@@ -1,9 +1,9 @@
 using System.Collections;//IEnumeratorを使用
 using System.Collections.Generic;//リストを使用
-using UnityEngine;
 using System;//Serializable属性を使用
 using UnityEngine.UI;//UIを使用
 using DG.Tweening;//DOTweenを使用
+using UnityEngine;
 
 /// <summary>
 /// UIを制御する
