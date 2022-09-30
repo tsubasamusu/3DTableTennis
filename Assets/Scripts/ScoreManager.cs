@@ -16,7 +16,8 @@ public class ScoreManager : MonoBehaviour
     /// </summary>
     /// <param name="ballController">BallController</param>
     /// <param name="uIManager">UIManager</param>
-    public void SetUpScoreManager(BallController ballController, UIManager uIManager)
+    /// <param name="playerController">PlayerController</param>
+    public void SetUpScoreManager(BallController ballController, UIManager uIManager,PlayerController playerController)
     {
         //得点の更新の確認を開始する
         StartCoroutine(CheckScore());
@@ -41,7 +42,7 @@ public class ScoreManager : MonoBehaviour
                 UpdateScore(GetUpadateValue(ballController), uIManager);
 
                 //ボールの動きを止める
-                ballController.PrepareRestartGame(GetAppropriatServer());
+                ballController.PrepareRestartGame(GetAppropriatServer(),playerController);
 
                 //次のフレームへ飛ばす（実質、Updateメソッド）
                 yield return null;

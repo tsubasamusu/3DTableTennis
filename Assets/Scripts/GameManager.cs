@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         SetUpControllers();
 
         //ScoreManagerの初期設定を行う
-        scoreManager.SetUpScoreManager(ballController, uiManager);
+        scoreManager.SetUpScoreManager(ballController, uiManager,playerController);
 
         //ゲームスタート演出が終わるまで待つ
         yield return uiManager.PlayGameStart();
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
                 playerController.SetUpPlayerController();
 
                 //BallControllerの初期設定を行う
-                ballController.SetUpBallController(playerController);
+                ballController.SetUpBallController();
             }
             //EnemyControllerを取得できたら
             else if (controllersList[i].TryGetComponent(out EnemyController enemyController))

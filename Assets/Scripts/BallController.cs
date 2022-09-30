@@ -1,6 +1,4 @@
 using System.Collections;//IEnumeratorを使用
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 /// <summary>
@@ -14,8 +12,6 @@ public class BallController : MonoBehaviour
     [SerializeField]
     private BoundPoint enemyBoundPoint;//エネミー用の跳ねる位置
 
-    private PlayerController playerController;//PlayerController
-
     private OwnerType currentOwner = OwnerType.Enemy;//現在の弾の所有者
 
     private Vector3 currentBoundPos;//現在の跳ねる位置
@@ -24,7 +20,7 @@ public class BallController : MonoBehaviour
 
     private bool stopMove;//ボールの動きを止めるかどうか
 
-    private bool playedBoundFlag;//ボールが卓球台で跳ねる音を再生したかどうか
+    private bool playedBoundSE;//ボールが卓球台で跳ねる音を再生したかどうか
 
     /// <summary>
     /// 「コートに入るかどうか」の取得用
@@ -39,12 +35,8 @@ public class BallController : MonoBehaviour
     /// <summary>
     /// BallControllerの初期設定を行う
     /// </summary>
-    /// <param name="playerController"></param>
-    public void SetUpBallController(PlayerController playerController)
+    public void SetUpBallController()
     {
-        //PlayerControllerを取得
-        this.playerController = playerController;
-
         //ボールを初期位置に移動させる
         transform.position = new Vector3(0f, 1f, -3f);
     }
@@ -55,7 +47,7 @@ public class BallController : MonoBehaviour
     public void ShotBall()
     {
         //効果音を再生していない状態に切り替える
-        playedBoundFlag = false;
+        playedBoundSE = false;
 
         //効果音を再生
         SoundManager.instance.PlaySound(SoundDataSO.SoundName.RacketSE);
@@ -155,7 +147,7 @@ public class BallController : MonoBehaviour
             transform.position = new Vector3(transform.position.x, Mathf.Clamp(GetAppropriatePosY(), 0.25f, 10f), transform.position.z);
 
             //効果音再生後なら
-            if (playedBoundFlag)
+            if (playedBoundSE)
             {
                 //次のフレームへ飛ばす（実質、Updateメソッド）
                 yield return null;
@@ -181,7 +173,7 @@ public class BallController : MonoBehaviour
                 SoundManager.instance.PlaySound(SoundDataSO.SoundName.BoundSE);
 
                 //効果音再生後に切り替える
-                playedBoundFlag = true;
+                playedBoundSE = true;
             }
 
             //次のフレームへ飛ばす（実質、Updateメソッド）
@@ -229,18 +221,20 @@ public class BallController : MonoBehaviour
     /// サーブから再スタートするための準備を行う
     /// </summary>
     /// <param name="server">誰がサーブをするか</param>
-    public void PrepareRestartGame(OwnerType server)
+    /// <param name="playerController">PlayerController</param>
+    public void PrepareRestartGame(OwnerType server,PlayerController playerController)
     {
         //サーブから再スタートする
-        StartCoroutine(RestartGame(server));
+        StartCoroutine(RestartGame(server,playerController));
     }
 
     /// <summary>
     /// サーブから再スタートする
     /// </summary>
     /// <param name="server">誰がサーブをするか</param>
+    /// <param name="playerController">PlayerController</param>
     /// <returns>待ち時間</returns>
-    private IEnumerator RestartGame(OwnerType server)
+    private IEnumerator RestartGame(OwnerType server,PlayerController playerController)
     {
         //ボールの動きを止める
         stopMove = true;
