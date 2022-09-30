@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
 
         //PlayerControllerとEnemyControllerを活性化する
         playerController.enabled = enemyController.enabled = true;
+
+        //BGMを再生
+        SoundManager.instance.PlaySound(SoundDataSO.SoundName.MainBGM, 0.3f, true);
     }
 
     /// <summary>
@@ -85,6 +88,12 @@ public class GameManager : MonoBehaviour
     /// <returns>待ち時間</returns>
     private IEnumerator PlayGameEndPerformance(bool isGameOverPerformance)
     {
+        //全ての音が完全に止まるまで待つ
+        yield return new WaitForSeconds(GameData.instance.FadeOutTime);
+
+        //効果音を再生
+        SoundManager.instance.PlaySound(isGameOverPerformance ? SoundDataSO.SoundName.GameOverSE : SoundDataSO.SoundName.PlayerPointSE);
+
         //ゲーム終了演出を行う
         yield return isGameOverPerformance ? uiManager.PlayGameOver() : uiManager.PlayGameClear();
 
@@ -99,6 +108,9 @@ public class GameManager : MonoBehaviour
     {
         //PlayerControllerとEnemyControllerを非活性化する
         playerController.enabled = enemyController.enabled = false;
+
+        //全ての音を停止する
+        SoundManager.instance.StopSound();
     }
 
     //TODO:リファクタリングの段階で、以降の処理をUniRxを使用して書き換える

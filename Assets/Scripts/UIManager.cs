@@ -120,6 +120,9 @@ public class UIManager : MonoBehaviour
         //ボタンが押された際の処理
         void ClickedButton()
         {
+            //効果音を再生
+            SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameStartSE);
+
             //背景を一定時間かけて非表示にする
             imgBackground.DOFade(0f, 1f);
 
@@ -200,6 +203,9 @@ public class UIManager : MonoBehaviour
         //ボタンが押された際の処理
         void ClickedButton()
         {
+            //効果音を再生
+            SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameRestartSE);
+
             //背景を一定時間かけて白色にする
             imgBackground.DOColor(Color.white, 1f);
 
@@ -280,6 +286,9 @@ public class UIManager : MonoBehaviour
         //ボタンが押された際の処理
         void ClickedButton()
         {
+            //効果音を再生
+            SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameRestartSE);
+
             //得点のキャンバスグループを一定時間かけて非表示にする
             cgScore.DOFade(0f, 1f);
 

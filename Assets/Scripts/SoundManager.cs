@@ -1,3 +1,4 @@
+using DG.Tweening;//DOTweenを使用
 using UnityEngine;
 
 /// <summary>
@@ -25,7 +26,6 @@ public class SoundManager : MonoBehaviour
         {
             //AudioSorceコンポーネントを作成し、配列に格納する
             audioSources[i] = gameObject.AddComponent<AudioSource>();
-
         }
 
         //以下、シングルトンに必須の記述
@@ -43,8 +43,9 @@ public class SoundManager : MonoBehaviour
     /// 音を再生する
     /// </summary>
     /// <param name="name">音の名前</param>
+    /// <param name="volume">音のボリューム</param>
     /// <param name="loop">繰り返すかどうか</param>
-    public void PlaySoun(SoundDataSO.SoundName name, bool loop = false)
+    public void PlaySound(SoundDataSO.SoundName name, float volume = 1f, bool loop = false)
     {
         //音再生用のAudioSourceの配列の要素を1つずつ取り出す
         foreach (AudioSource source in audioSources)
@@ -54,6 +55,9 @@ public class SoundManager : MonoBehaviour
             {
                 //音のクリップを取得して、登録する
                 source.clip = soundDataSO.soundDataList.Find(x => x.name == name).clip;
+
+                //音のボリュームを設定
+                source.volume = volume;
 
                 //繰り返すなら
                 if (loop)
@@ -79,11 +83,18 @@ public class SoundManager : MonoBehaviour
         //音再生用のAudioSourceの配列の要素を1つずつ取り出す
         foreach (AudioSource source in audioSources)
         {
-            //音を止める
-            source.Stop();
+            //音をフェードアウトさせる
+            source.DOFade(0f, GameData.instance.FadeOutTime)
 
-            //取り出したAudioSourceのクリップを空にする
-            source.clip = null;
+                //音のフェードアウトが終ったら
+                .OnComplete(() =>
+                {
+                    //音を完全に止める
+                    { source.Stop(); }
+
+                    //取り出したAudioSourceのクリップを空にする
+                    { source.clip = null; }
+                });
         }
     }
 }

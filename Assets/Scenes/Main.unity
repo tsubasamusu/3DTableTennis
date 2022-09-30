@@ -949,6 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c561cfe56a11bd7429d18157029d4b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundDataSO: {fileID: 11400000, guid: 750410baff16e4f4581d06b5328eb706, type: 2}
 --- !u!1 &429846757
 GameObject:
   m_ObjectHideFlags: 0
@@ -3196,6 +3197,7 @@ MonoBehaviour:
   enemyShotRange: 1.5
   enemyServeTime: 2
   displayScoreTime: 2
+  fadeOutTime: 0.5
   maxScore: 11
 --- !u!1 &1289152545
 GameObject:
@@ -4212,7 +4214,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2056727468}
-  m_LocalRotation: {x: 4.238689e-10, y: 0.99513334, z: -0.098537624, w: 0.0000000042806607}
+  m_LocalRotation: {x: -4.238689e-10, y: 0.99513334, z: -0.09853762, w: -0.000000004280661}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4358,7 +4360,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062518591}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalPosition: {x: 3.09, y: 1, z: -3}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []

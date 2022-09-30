@@ -49,6 +49,9 @@ public class GameData : MonoBehaviour
     [SerializeField,Header("得点を表示する時間")]
     private float displayScoreTime;
 
+    [SerializeField,Header("音のフェードアウト時間")]
+    private float fadeOutTime;//音のフェードアウト時間
+
     [SerializeField, Header("最高得点")]
     private int maxScore;//最高得点
 
@@ -93,7 +96,12 @@ public class GameData : MonoBehaviour
     /// <summary>
     /// 「得点を表示する時間」の取得用
     /// </summary>
-    public float DisplayScoreTime { get => displayScoreTime; } 
+    public float DisplayScoreTime { get => displayScoreTime; }
+
+    /// <summary>
+    /// 「音のフェードアウト時間」の取得用
+    /// </summary>
+    public float FadeOutTime { get => fadeOutTime; }
 
     /// <summary>
     /// 最高得点取得用

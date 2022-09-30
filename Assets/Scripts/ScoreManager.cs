@@ -79,6 +79,9 @@ public class ScoreManager : MonoBehaviour
     /// <param name="uIManager">UIManager</param>
     private void UpdateScore((int playerUpdateValue, int enemyUpdateValue) updateValue, UIManager uIManager)
     {
+        //効果音を再生
+        SoundManager.instance.PlaySound(updateValue.playerUpdateValue > 0 ? SoundDataSO.SoundName.PlayerPointSE : SoundDataSO.SoundName.EnemyPointSE);
+
         //プレイヤーの得点を更新
         GameData.instance.score.playerScore += updateValue.playerUpdateValue;
 

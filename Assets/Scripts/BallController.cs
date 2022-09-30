@@ -24,13 +24,15 @@ public class BallController : MonoBehaviour
 
     private bool stopMove;//ボールの動きを止めるかどうか
 
+    private bool playedBoundFlag;//ボールが卓球台で跳ねる音を再生したかどうか
+
     /// <summary>
     /// 「コートに入るかどうか」の取得用
     /// </summary>
     public bool InCourt { get => inCourt; }
 
     /// <summary>
-    /// ボールの現在の所有者の取得用
+    /// 「ボールの現在の所有者」の取得用
     /// </summary>
     public OwnerType CurrentOwner { get => currentOwner; }
 
@@ -42,6 +44,9 @@ public class BallController : MonoBehaviour
     {
         //PlayerControllerを取得
         this.playerController = playerController;
+
+        //ボールを初期位置に移動させる
+        transform.position = new Vector3(0f, 1f, -3f);
     }
 
     /// <summary>
@@ -49,6 +54,12 @@ public class BallController : MonoBehaviour
     /// </summary>
     public void ShotBall()
     {
+        //効果音を再生していない状態に切り替える
+        playedBoundFlag = false;
+
+        //効果音を再生
+        SoundManager.instance.PlaySound(SoundDataSO.SoundName.RacketSE);
+
         //光線を発射する高さを取得
         float posY = currentOwner == OwnerType.Player ? 0.25f : 0.75f;
 
@@ -142,6 +153,36 @@ public class BallController : MonoBehaviour
 
             //y座標を更新する
             transform.position = new Vector3(transform.position.x, Mathf.Clamp(GetAppropriatePosY(), 0.25f, 10f), transform.position.z);
+
+            //効果音再生後なら
+            if (playedBoundFlag)
+            {
+                //次のフレームへ飛ばす（実質、Updateメソッド）
+                yield return null;
+
+                //次の繰り返し処理に移る
+                continue;
+            }
+
+            //コートに入らないなら
+            if (!InCourt)
+            {
+                //次のフレームへ飛ばす（実質、Updateメソッド）
+                yield return null;
+
+                //次の繰り返し処理に移る
+                continue;
+            }
+
+            //ボールの高さが一定以下になったら
+            if (transform.position.y <= 0.8f)
+            {
+                //効果音を再生
+                SoundManager.instance.PlaySound(SoundDataSO.SoundName.BoundSE);
+
+                //効果音再生後に切り替える
+                playedBoundFlag = true;
+            }
 
             //次のフレームへ飛ばす（実質、Updateメソッド）
             yield return null;
