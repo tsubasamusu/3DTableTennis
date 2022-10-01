@@ -73,8 +73,6 @@ namespace yamap
             Debug.Log("Reset : GameData");
         }
 
-
-
         /// <summary>
         /// 「ラケットを構えるのに要する時間」の取得用
         /// </summary>

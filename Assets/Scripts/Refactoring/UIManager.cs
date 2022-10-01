@@ -4,6 +4,7 @@ using System;//Serializable属性を使用
 using UnityEngine.UI;//UIを使用
 using DG.Tweening;//DOTweenを使用
 using UnityEngine;
+using System.Xml.Linq;
 
 namespace yamap 
 {
@@ -60,6 +61,14 @@ namespace yamap
         private bool isUIEffect;//演出終了判定用
 
         /// <summary>
+        /// 演出の種類
+        /// </summary>
+        private enum PerformType
+        {
+            GameStart,GameOver,GameClear//列挙子
+        }
+
+        /// <summary>
         /// ロゴのスプライトを取得する
         /// </summary>
         /// <param name="logoType">ロゴの種類</param>
@@ -95,7 +104,7 @@ namespace yamap
             txtButton.text = "Start";
 
             //ボタンが押された際の処理を設定
-            button.onClick.AddListener(() => ClickedButton(SoundDataSO.SoundName.GameStartSE));
+            button.onClick.AddListener(() => ClickedButton(PerformType.GameStart));
 
             //ボタンを非活性化する
             button.interactable = false;
@@ -119,37 +128,49 @@ namespace yamap
             isUIEffect = false;
         }
 
-
         /// <summary>
         /// ボタンが押された際の処理
         /// </summary>
-        /// <param name="seName">効果音の名前</param>
-        private void ClickedButton(SoundDataSO.SoundName seName) 
+        /// <param name="performType">演出の種類</param>
+        private void ClickedButton(PerformType performType)
         {
             //ボタンを非活性化する
             button.interactable = false;
 
-            //効果音を再生
-            SoundManager.instance.PlaySound(seName);
-
-            //効果音の名前に応じて処理を変更
-            switch(seName)
+            //ゲームスタート演出なら
+            if (performType == PerformType.GameStart)
             {
-                //ゲーム開始時なら、背景のイメージをを一定時間かけて非表示にする
-                case SoundDataSO.SoundName.GameStartSE:imgBackground.DOFade(0f, 1f);break;
+                //効果音を再生
+                SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameStartSE);
+            }
+            //ゲームスタート演出ではないなら
+            else
+            {
+                //効果音を再生
+                SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameRestartSE);
+            }
 
-                //ゲームオーバー時なら、背景のイメージを一定時間かけて白色に変化させる
-                case SoundDataSO.SoundName.GameOverSE: imgBackground.DOColor(Color.white, 1f);break;
+            //演出の種類に応じて処理を変更
+            switch (performType)
+            {
+                //ゲームスタート演出なら、背景のイメージをを一定時間かけて非表示にする
+                case PerformType.GameStart: imgBackground.DOFade(0f, 1f); break;
+
+                //ゲームオーバー演出なら、背景のイメージを一定時間かけて白色に変化させる
+                case PerformType.GameOver: imgBackground.DOColor(Color.white, 1f); break;
+
+                //ゲームクリア演出なら
+                case PerformType.GameClear: cgScore.DOFade(0f, 1f); break;
             }
 
             //ロゴを一定時間かけて非表示にする
             imgLogo.DOFade(0f, 1f);
 
             //ボタンのキャンバスグループを一定時間かけて非表示にする
-            cgButton.DOFade(0f, 1f);
+            cgButton.DOFade(0f, 1f)
 
-            //演出が終了した状態に切り替える
-            isUIEffect = true;
+                //演出が終了した状態に切り替える
+                .OnComplete(() => isUIEffect = true);
         }
 
         /// <summary>
@@ -177,7 +198,7 @@ namespace yamap
             button.onClick.RemoveAllListeners();
 
             //ボタンが押された際の処理を設定
-            button.onClick.AddListener(() => ClickedButton(SoundDataSO.SoundName.GameRestartSE));
+            button.onClick.AddListener(() => ClickedButton(PerformType.GameOver));
 
             //ボタンを非活性化する
             button.interactable = false;
@@ -193,7 +214,8 @@ namespace yamap
                 sequence.Append(imgLogo.DOFade(0f, 0f));
                 sequence.Append(imgBackground.DOFade(1f, 1f));
                 sequence.Append(imgLogo.DOFade(1f, 1f));
-                sequence.Append(imgButton.DOFade(1f, 1f))
+                sequence.Append(imgButton.DOFade(1f, 1f));
+                sequence.Join(cgButton.DOFade(1f,1f))
                     .OnComplete(() => button.interactable = true);
             }
 
@@ -229,7 +251,7 @@ namespace yamap
             button.onClick.RemoveAllListeners();
 
             //ボタンが押された際の処理を設定
-            button.onClick.AddListener(() => ClickedButton(SoundDataSO.SoundName.PlayerPointSE));
+            button.onClick.AddListener(() => ClickedButton(PerformType.GameClear));
 
             //ボタンを非活性化する
             button.interactable = false;
