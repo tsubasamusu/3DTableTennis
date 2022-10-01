@@ -49,6 +49,9 @@ namespace yamap
         [SerializeField]
         private Text txtButton;//ボタンのテキスト
 
+        [SerializeField]
+        private Text txtMessage;//メッセージのテキスト
+
         private bool isUIEffect;//演出終了判定用
 
         /// <summary>
@@ -72,38 +75,6 @@ namespace yamap
             //まだ演出が終了していない状態に切り替える
             isUIEffect = false;
 
-            //得点に関する処理
-            {
-                //ゲームクリア演出なら
-                if (performType == PerformType.GameClear)
-                {
-                    //得点のテキストを一定時間かけて青色に変える
-                    txtScore.DOColor(Color.blue, 2f);
-                }
-                //ゲームクリア演出ではないなら
-                else
-                {
-                    //得点のキャンバスグループを非表示にする
-                    cgScore.alpha = 0f;
-                }
-            }
-
-            //背景に関する処理
-            {
-                //ゲームオーバー演出なら
-                if (performType == PerformType.GameOver)
-                {
-                    //背景を黒色に設定
-                    imgBackground.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
-                }
-                //ゲームオーバー演出ではないなら
-                else
-                {
-                    //背景を白色に設定
-                    imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
-                }
-            }
-
             //ロゴのスプライトを設定
             imgLogo.sprite = GetLogoSprite(performType);
 
@@ -120,42 +91,35 @@ namespace yamap
             switch (performType)
             {
                 case PerformType.GameStart://ゲームスタート演出なら
+                    imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);//背景の色を設定
+                    cgScore.alpha = 0f;//得点のキャンバスグループを非表示に設定
                     imgButton.color = new Color(Color.blue.r, Color.blue.g, Color.blue.b, 0f);//ボタンの色を設定
                     txtButton.text = "Start";//ボタンのテキストを設定
-                    {
-                        sequence.Append(imgLogo.DOFade(0f, 0f));
-                        sequence.Append(imgLogo.DOFade(1f, 1f));
-                        sequence.Append(imgButton.DOFade(1f, 1f));
-                        sequence.Join(cgButton.DOFade(1f, 1f))
-                            .OnComplete(() => button.interactable = true).SetLink(gameObject);
-                    }
                     break;
 
                 case PerformType.GameOver://ゲームオーバー演出なら
+                    imgBackground.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);//背景の色を設定
+                    cgScore.alpha = 0f;//得点のキャンバスグループを非表示に設定
                     imgButton.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0f);//ボタンの色を設定
                     txtButton.text = "Restart";//ボタンのテキストを設定
-                    {
-                        sequence.Append(imgLogo.DOFade(0f, 0f));
-                        sequence.Append(imgBackground.DOFade(1f, 1f));
-                        sequence.Append(imgLogo.DOFade(1f, 1f));
-                        sequence.Append(imgButton.DOFade(1f, 1f));
-                        sequence.Join(cgButton.DOFade(1f, 1f))
-                            .OnComplete(() => button.interactable = true);
-                    }
                     break;
 
                 case PerformType.GameClear://ゲームクリア演出なら
+                    imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);//背景の色を設定
                     imgButton.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0f);//ボタンの色を設定
                     txtButton.text = "Restart";//ボタンのテキストを設定
-                    {
-                        sequence.Append(imgLogo.DOFade(0f, 0f));
-                        sequence.Append(imgBackground.DOFade(1f, 1f));
-                        sequence.Append(imgLogo.DOFade(1f, 1f));
-                        sequence.Append(imgButton.DOFade(1f, 1f));
-                        sequence.Join(cgButton.DOFade(1f, 1f))
-                            .OnComplete(() => button.interactable = true);
-                    }
                     break;
+            }
+
+            //演出を行う
+            {
+                if (performType == PerformType.GameClear) txtScore.DOColor(Color.blue, 2f);
+                sequence.Append(imgLogo.DOFade(0f, 0f));
+                if (performType != PerformType.GameStart) sequence.Append(imgBackground.DOFade(1f, 1f));
+                sequence.Append(imgLogo.DOFade(1f, 1f));
+                sequence.Append(imgButton.DOFade(1f, 1f));
+                sequence.Join(cgButton.DOFade(1f, 1f))
+                    .OnComplete(() => button.interactable = true).SetLink(gameObject);
             }
 
             //ボタンを非活性化する
