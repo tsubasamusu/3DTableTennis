@@ -1,36 +1,35 @@
 using UnityEngine;
 
-namespace yamap {
-
+namespace yamap 
+{
     /// <summary>
     /// プレーヤーの行動を制御する
     /// </summary>
-    public class PlayerController : ControllerBase {
-
-        //private Vector3 firstPos;//プレイヤーの初期位置
-
-        ///// <summary>
-        ///// PlayerControllerの初期設定を行う
-        ///// </summary>
-        //public void SetUpPlayerController() {
-        //    //プレイヤーの初期位置を取得
-        //    firstPos = transform.position;
-        //}
-
-
-        void Reset() {
-            if (TryGetComponent(out PlayerController playerController)) {
+    public class PlayerController : ControllerBase 
+    {
+        /// <summary>
+        /// リセットする
+        /// </summary>
+        private void Reset() 
+        {
+            //自分がプレイヤーなら
+            if (TryGetComponent(out PlayerController _)) 
+            {
+                //所有者をプレイヤーに設定
                 ownerType = OwnerType.Player;
             }
         }
 
         /// <summary>
-        /// 親クラスで用意している設定の処理(base 部分)は残しつつ、このクラス独自の処理を追加する
+        /// ControllerBaseの初期設定を行う（親クラスで用意している設定の処理(base 部分)は残しつつ、このクラス独自の処理を追加する）
         /// </summary>
-        /// <param name="ballController"></param>
-        public override void SetUpControllerBase(BallController ballController) {
+        /// <param name="ballController">BallController</param>
+        public override void SetUpControllerBase(BallController ballController) 
+        {
+            //TODO:これは何？
             base.SetUpControllerBase(ballController);
 
+            //リセットする
             Reset();
 
             //BallControllerの初期設定を行う
@@ -40,9 +39,11 @@ namespace yamap {
         /// <summary>
         /// 移動方向を取得する
         /// </summary>
-        protected override Vector3 GetMoveDir() {
+        protected override Vector3 GetMoveDir() 
+        {
             //何も押されていないなら
-            if (!Input.anyKey) {
+            if (!Input.anyKey) 
+            {
                 //以降の処理を行わない（無駄な処理を防止・無操作での移動防止）
                 return Vector3.zero;
             }
@@ -63,14 +64,17 @@ namespace yamap {
         /// <summary>
         /// ラケットを制御する（Updateメソッドで呼び出され続ける）
         /// </summary>
-        protected override void ControlRacket() {
+        protected override void ControlRacket() 
+        {
             //左クリックされたら
-            if (Input.GetMouseButtonDown(0)) {
+            if (Input.GetMouseButtonDown(0)) 
+            {
                 //バックハンドドライブをする
                 racketController.Drive(false);
             }
             //右クリックされたら
-            else if (Input.GetMouseButtonDown(1)) {
+            else if (Input.GetMouseButtonDown(1)) 
+            {
                 //フォアハンドドライブをする
                 racketController.Drive(true);
             }
@@ -79,7 +83,8 @@ namespace yamap {
         /// <summary>
         /// キャラクターの向きを設定する（Updateメソッドで呼び出され続ける）
         /// </summary>
-        protected override void SetCharaDirection() {
+        protected override void SetCharaDirection() 
+        {
             //キャラクターの向きを設定する
             transform.eulerAngles = new Vector3(0f, Camera.main.transform.eulerAngles.y, 0f);
         }
@@ -87,7 +92,8 @@ namespace yamap {
         /// <summary>
         /// プレイヤーを初期位置に移動させる
         /// </summary>
-        public void ResetPlayerPos() {
+        public void ResetPlayerPos() 
+        {
             //CharacterControllerを非活性化する
             charaController.enabled = false;
 
