@@ -34,6 +34,9 @@ namespace yamap
 
         private GameState currentGameState;//現在のゲームの状態
 
+        private int count;//サーブの回数の記録用
+
+        private OwnerType server;//サーバー保持用
 
         /// <summary>
         /// ゲーム開始直後に呼び出される
@@ -179,10 +182,6 @@ namespace yamap
             SoundManager.instance.StopSound();
         }
 
-        private int count;//サーブの回数の記録用
-
-        private OwnerType server;//サーバー保持用
-
         /// <summary>
         /// ボールの位置を監視する
         /// </summary>
@@ -217,6 +216,9 @@ namespace yamap
 
             //サーバーを取得して、ボールの動きを止める
             ballController.PrepareRestartGame(GetAppropriatServer());
+
+            //メッセージを表示
+            uiManager.PrepareDisplayMessage(server);
 
             //プレーヤーを初期位置に移動させる
             playerController.ResetPlayerPos();

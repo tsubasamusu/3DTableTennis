@@ -75,6 +75,9 @@ namespace yamap
             //まだ演出が終了していない状態に切り替える
             isUIEffect = false;
 
+            //メッセージのテキストを空にする
+            txtMessage.text=String.Empty;
+
             //ロゴのスプライトを設定
             imgLogo.sprite = GetLogoSprite(performType);
 
@@ -141,30 +144,23 @@ namespace yamap
             //ボタンを非活性化する
             button.interactable = false;
 
-            //ゲームスタート演出なら
-            if (performType == PerformType.GameStart)
-            {
-                //効果音を再生
-                SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameStartSE);
-            }
-            //ゲームスタート演出ではないなら
-            else
-            {
-                //効果音を再生
-                SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameRestartSE);
-            }
-
             //演出の種類に応じて処理を変更
             switch (performType)
             {
-                //ゲームスタート演出なら、背景のイメージをを一定時間かけて非表示にする
-                case PerformType.GameStart: imgBackground.DOFade(0f, 1f); break;
+                case PerformType.GameStart://ゲームスタート演出なら
+                    imgBackground.DOFade(0f, 1f);//背景を一定時間かけて非表示にする
+                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameStartSE);//効果音を再生
+                    break;
 
-                //ゲームオーバー演出なら、背景のイメージを一定時間かけて白色に変化させる
-                case PerformType.GameOver: imgBackground.DOColor(Color.white, 1f); break;
+                case PerformType.GameOver://ゲームオーバー演出なら
+                    imgBackground.DOColor(Color.white, 1f);//背景を一定時間かけて白色に変化させる
+                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameRestartSE);//効果音を再生
+                    break;
 
-                //ゲームクリア演出なら
-                case PerformType.GameClear: cgScore.DOFade(0f, 1f); break;
+                case PerformType.GameClear://ゲームクリア演出なら
+                    cgScore.DOFade(0f, 1f);//得点のキャンバスグループを一定時間かけて非表示にする
+                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameRestartSE);//効果音を再生
+                    break;
             }
 
             //ロゴを一定時間かけて非表示にする
@@ -214,7 +210,7 @@ namespace yamap
             cgScore.DOFade(1f, 0.25f);
 
             //得点を一定時間、表示し続ける
-            yield return new WaitForSeconds(0.25f + GameData.instance.DisplayScoreTime);
+            yield return new WaitForSeconds(0.25f + GameData.instance.DisplayScoreAndMessageTime);
 
             //プレイヤーが勝利したら
             if (GameData.instance.score.playerScore == GameData.instance.MaxScore)
@@ -225,6 +221,35 @@ namespace yamap
 
             //得点のキャンバスグループを一定時間かけて非表示にする
             cgScore.DOFade(0f, 0.25f);
+        }
+
+        /// <summary>
+        /// メッセージを表示する準備を行う
+        /// </summary>
+        /// <param name="server">サーバー</param>
+        public void PrepareDisplayMessage(OwnerType server)
+        {
+            //メッセージのテキストを設定
+            txtMessage.text = server == OwnerType.Player ? "Your Serve" : "Enemy's Serve";
+
+            //メッセージを表示する
+            StartCoroutine(DisplayMessage());
+        }
+
+        /// <summary>
+        /// メッセージを表示する
+        /// </summary>
+        /// <returns>待ち時間</returns>
+        private IEnumerator DisplayMessage()
+        {
+            //メッセージのテキストを一定時間かけて表示する
+            txtMessage.DOFade(1f, 0.25f);
+
+            //メッセージを一定時間、表示し続ける
+            yield return new WaitForSeconds(0.25f + GameData.instance.DisplayScoreAndMessageTime);
+
+            //メッセージのテキストを一定時間かけて非表示にする
+            txtMessage.DOFade(0f, 0.25f);
         }
     }
 }

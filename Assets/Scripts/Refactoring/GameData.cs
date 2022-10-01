@@ -47,8 +47,8 @@ namespace yamap
         [SerializeField, Header("エネミーがサーブを打つまでの時間")]
         private float enemyServeTime = 2.0f;//エネミーがサーブを打つまでの時間
 
-        [SerializeField, Header("得点を表示する時間")]
-        private float displayScoreTime = 2.0f;
+        [SerializeField, Header("得点とメッセージを表示する時間")]
+        private float displayScoreAndMessageTime = 2.0f;
 
         [SerializeField, Header("音のフェードアウト時間")]
         private float fadeOutTime = 0.5f;//音のフェードアウト時間
@@ -109,9 +109,9 @@ namespace yamap
         public float EnemyServeTime { get => enemyServeTime; }
 
         /// <summary>
-        /// 「得点を表示する時間」の取得用
+        /// 「得点とメッセージを表示する時間」の取得用
         /// </summary>
-        public float DisplayScoreTime { get => displayScoreTime; }
+        public float DisplayScoreAndMessageTime { get => displayScoreAndMessageTime; }
 
         /// <summary>
         /// 「音のフェードアウト時間」の取得用
