@@ -1,13 +1,13 @@
 using System.Collections;//IEnumeratorを使用
 using UnityEngine;
 
-namespace yamap {
-
+namespace yamap 
+{
     /// <summary>
     /// ボールの動きを制御する
     /// </summary>
-    public class BallController : MonoBehaviour {
-
+    public class BallController : MonoBehaviour 
+    {
         [SerializeField]
         private BoundPoint playerBoundPoint;//プレイヤー用の跳ねる位置
 
@@ -32,16 +32,22 @@ namespace yamap {
         /// </summary>
         public OwnerType CurrentOwner { get => currentOwner; }
 
-
-        public BoundPoint GetBoundPoint(OwnerType ownerType) {
+        /// <summary>
+        /// BoundPointを取得する
+        /// </summary>
+        /// <param name="ownerType">所有者の種類</param>
+        /// <returns>BoundPoint</returns>
+        public BoundPoint GetBoundPoint(OwnerType ownerType) 
+        {
+            //所有者に応じて、返すBoundPointを変更する
             return ownerType == OwnerType.Enemy ? enemyBoundPoint : playerBoundPoint;
         }
-
 
         /// <summary>
         /// BallControllerの初期設定を行う
         /// </summary>
-        public void SetUpBallController() {
+        public void SetUpBallController() 
+        {
             //ボールを初期位置に移動させる
             transform.position = new Vector3(0f, 1f, -3f);
         }
@@ -50,7 +56,8 @@ namespace yamap {
         /// ボールを打つ
         /// </summary>
         /// <param name="boundPos">跳ねる位置</param>
-        public void ShotBall(Vector3 boundPos) {
+        public void ShotBall(Vector3 boundPos) 
+        {
             //効果音を再生していない状態に切り替える
             playedBoundSE = false;
 
@@ -67,7 +74,8 @@ namespace yamap {
             inCourt = false;
 
             //光線が他のコライダーに触れなかったら
-            if (!Physics.Raycast(ray, out RaycastHit hit, 10f)) {
+            if (!Physics.Raycast(ray, out RaycastHit hit, 10f)) 
+            {
                 //ボールを移動させる準備を行う
                 PrepareMoveBall(boundPos);
 
@@ -76,7 +84,8 @@ namespace yamap {
             }
 
             //接触相手がコートではないなら
-            if (!hit.transform.TryGetComponent(out BoundPoint boundPoint)) {
+            if (!hit.transform.TryGetComponent(out BoundPoint boundPoint)) 
+            {
                 //ボールを移動させる準備を行う
                 PrepareMoveBall(boundPos);
 
@@ -85,7 +94,8 @@ namespace yamap {
             }
 
             //現在のボールの所有者のコートに触れたら
-            if (boundPoint.GetOwnerTypeOfCourt() == currentOwner) {
+            if (boundPoint.GetOwnerTypeOfCourt() == currentOwner) 
+            {
                 //コートに入る状態で登録する
                 inCourt = true;
 
@@ -99,12 +109,14 @@ namespace yamap {
         /// </summary>
         /// <param name="boundPos">跳ねる位置</param>
         /// <returns>適切なy座標</returns>
-        private float GetAppropriatePosY(Vector3 boundPos) {
+        private float GetAppropriatePosY(Vector3 boundPos) 
+        {
             //跳ねる位置との距離を取得
             float length = Mathf.Abs((Vector3.Scale(transform.position, new Vector3(1f, 0f, 1f)) - Vector3.Scale(boundPos, new Vector3(1f, 0f, 1f))).magnitude);
 
             //コートに入らず、一定以下の低さになったら
-            if (!inCourt && transform.position.y <= 0.8f) {
+            if (!inCourt && transform.position.y <= 0.8f) 
+            {
                 //距離を負にする（跳ねさせず、落下させる）
                 length *= -1f;
             }
@@ -117,7 +129,8 @@ namespace yamap {
         /// ボールを移動させる準備を行う
         /// </summary>
         /// <param name="boundPos">跳ねる位置</param>
-        private void PrepareMoveBall(Vector3 boundPos) {
+        private void PrepareMoveBall(Vector3 boundPos) 
+        {
             //ボールを移動させる
             StartCoroutine(MoveBall(boundPos));
         }
@@ -127,14 +140,17 @@ namespace yamap {
         /// </summary>
         /// <param name="boundPos">跳ねる位置</param>
         /// <returns>待ち時間</returns>
-        private IEnumerator MoveBall(Vector3 boundPos) {
+        private IEnumerator MoveBall(Vector3 boundPos) 
+        {
             //ボールの所有者を保持
             OwnerType ownerType = currentOwner;
 
             //ボールの所有者が変わらない（返球されていない）間、繰り返す
-            while (ownerType == currentOwner) {
+            while (ownerType == currentOwner) 
+            {
                 //ボールの動きを止める指示が出たら
-                if (stopMove) {
+                if (stopMove) 
+                {
                     //繰り返し処理を終了する
                     break;
                 }
@@ -146,7 +162,8 @@ namespace yamap {
                 transform.position = new Vector3(transform.position.x, Mathf.Clamp(GetAppropriatePosY(boundPos), 0.25f, 10f), transform.position.z);
 
                 //効果音再生後なら
-                if (playedBoundSE) {
+                if (playedBoundSE) 
+                {
                     //1フレーム待つ（実質、Updateメソッド）
                     yield return null;
 
@@ -155,7 +172,8 @@ namespace yamap {
                 }
 
                 //コートに入らないなら
-                if (!InCourt) {
+                if (!InCourt) 
+                {
                     //1フレーム待つ（実質、Updateメソッド）
                     yield return null;
 
@@ -164,7 +182,8 @@ namespace yamap {
                 }
 
                 //ボールの高さが一定以下になったら
-                if (transform.position.y <= 0.8f) {
+                if (transform.position.y <= 0.8f) 
+                {
                     //効果音を再生
                     SoundManager.instance.PlaySound(SoundDataSO.SoundName.BoundSE);
 
@@ -181,11 +200,14 @@ namespace yamap {
         /// 他のコライダーに接触した際に呼び出される
         /// </summary>
         /// <param name="other">接触相手</param>
-        private void OnTriggerEnter(Collider other) {
+        private void OnTriggerEnter(Collider other) 
+        {
             //ラケットに触れたら
-            if (other.TryGetComponent(out RacketController racketController)) {
+            if (other.TryGetComponent(out RacketController racketController)) 
+            {
                 //現在のボールの所有者と、ボールを打った者人が同じなら（二度打ちされたら）
-                if (currentOwner == racketController.OwnerType) {
+                if (currentOwner == racketController.OwnerType) 
+                {
                     //以降の処理を行わない
                     return;
                 }
@@ -214,19 +236,19 @@ namespace yamap {
         /// サーブから再スタートするための準備を行う
         /// </summary>
         /// <param name="server">誰がサーブをするか</param>
-        /// <param name="playerController">PlayerController</param>
-        public void PrepareRestartGame(OwnerType server) {    // , PlayerController playerController
+        public void PrepareRestartGame(OwnerType server) 
+        {
             //サーブから再スタートする
-            StartCoroutine(RestartGame(server));   // , playerController
+            StartCoroutine(RestartGame(server));
         }
 
         /// <summary>
         /// サーブから再スタートする
         /// </summary>
         /// <param name="server">誰がサーブをするか</param>
-        /// <param name="playerController">PlayerController</param>
         /// <returns>待ち時間</returns>
-        private IEnumerator RestartGame(OwnerType server) {   // , PlayerController playerController
+        private IEnumerator RestartGame(OwnerType server) 
+        {
             //ボールの動きを止める
             stopMove = true;
 
@@ -239,15 +261,9 @@ namespace yamap {
             //現在のボールの所有者を設定
             currentOwner = server == OwnerType.Player ? OwnerType.Enemy : OwnerType.Player;
 
-
-
-            ////プレイヤーの位置を初期化  ->  GameManager でやりましょう
-            //playerController.ResetPlayerPos();
-
-
-
             //サーバーがエネミーなら
-            if (server == OwnerType.Enemy) {
+            if (server == OwnerType.Enemy) 
+            {
                 //一定時間待つ（エネミーがサーブを打つまでの時間を設ける）
                 yield return new WaitForSeconds(GameData.instance.EnemyServeTime);
             }
