@@ -4,30 +4,21 @@ using System;//Serializable属性を使用
 using UnityEngine.UI;//UIを使用
 using DG.Tweening;//DOTweenを使用
 using UnityEngine;
-using System.Xml.Linq;
 
-namespace yamap 
+namespace yamap
 {
     /// <summary>
     /// UIを制御する
     /// </summary>
-    public class UIManager : MonoBehaviour 
+    public class UIManager : MonoBehaviour
     {
-        /// <summary>
-        /// ロゴの種類
-        /// </summary>
-        private enum LogoType 
-        {
-            Title, GameOver, GameClear//列挙子
-        }
-
         /// <summary>
         /// ロゴのデータを管理する 
         /// </summary>
         [Serializable]
-        private class LogoData 
+        private class LogoData
         {
-            public LogoType LogoType;//ロゴの種類
+            public PerformType performType;//演出の種類
             public Sprite sprite;//スプライト
         }
 
@@ -61,65 +52,108 @@ namespace yamap
         private bool isUIEffect;//演出終了判定用
 
         /// <summary>
-        /// 演出の種類
-        /// </summary>
-        private enum PerformType
-        {
-            GameStart,GameOver,GameClear//列挙子
-        }
-
-        /// <summary>
         /// ロゴのスプライトを取得する
         /// </summary>
-        /// <param name="logoType">ロゴの種類</param>
+        /// <param name="performType">演出の種類</param>
         /// <returns>ロゴのスプライト</returns>
-        private Sprite GetLogoSprite(LogoType logoType) 
+        private Sprite GetLogoSprite(PerformType performType)
         {
             //ロゴのスプライトを返す
-            return logoDatasList.Find(x => x.LogoType == logoType).sprite;
+            return logoDatasList.Find(x => x.performType==performType).sprite;
         }
 
         /// <summary>
-        /// ゲームスタート演出を行う
+        /// ゲームの演出を行う
         /// </summary>
+        /// <param name="performType">演出の種類</param>
         /// <returns>待ち時間</returns>
-        public IEnumerator PlayGameStart() 
+        public IEnumerator PlayGamePerform(PerformType performType)
         {
             //まだ演出が終了していない状態に切り替える
             isUIEffect = false;
 
-            //得点のキャンバスグループを非表示にする
-            cgScore.alpha = 0f;
+            //ゲームクリア演出ではないなら
+            if (performType != PerformType.GameClear)
+            {
+                //得点のキャンバスグループを非表示にする
+                cgScore.alpha = 0f;
+            }
+            //ゲームクリア演出なら
+            else
+            {
+                //得点のテキストを一定時間かけて青色に変える
+                txtScore.DOColor(Color.blue, 2f);
+            }
 
-            //背景を白色に設定
-            imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
+            //ゲームオーバー演出なら
+            if (performType == PerformType.GameOver)
+            {
+                //背景を黒色に設定
+                imgBackground.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
+            }
+            //ゲームオーバー演出ではないなら
+            else
+            {
+                //背景を白色に設定
+                imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
+            }
 
-            //ロゴをタイトルに設定
-            imgLogo.sprite = GetLogoSprite(LogoType.Title);
-
-            //ボタンを青色に設定
-            imgButton.color = new Color(Color.blue.r, Color.blue.g, Color.blue.b, 0f);
-
-            //ボタンのテキストを「Start」に設定
-            txtButton.text = "Start";
-
-            //ボタンが押された際の処理を設定
-            button.onClick.AddListener(() => ClickedButton(PerformType.GameStart));
-
-            //ボタンを非活性化する
-            button.interactable = false;
+            //ボタンに登録されている処理を削除
+            button.onClick.RemoveAllListeners();
 
             //Sequenceを作成
             Sequence sequence = DOTween.Sequence();
 
-            //演出を行う
+            //演出の種類によって処理を変更
+            switch (performType)
             {
-                sequence.Append(imgLogo.DOFade(0f, 0f));
-                sequence.Append(imgLogo.DOFade(1f, 1f));
-                sequence.Append(imgButton.DOFade(1f, 1f));
-                sequence.Join(cgButton.DOFade(1f, 1f))
-                    .OnComplete(() => button.interactable = true).SetLink(gameObject);
+                case PerformType.GameStart:
+                    imgLogo.sprite = GetLogoSprite(PerformType.GameStart);
+                    imgButton.color = new Color(Color.blue.r, Color.blue.g, Color.blue.b, 0f);
+                    txtButton.text = "Start";
+                    button.onClick.AddListener(() => ClickedButton(PerformType.GameStart));
+                    {
+                        sequence.Append(imgLogo.DOFade(0f, 0f));
+                        sequence.Append(imgLogo.DOFade(1f, 1f));
+                        sequence.Append(imgButton.DOFade(1f, 1f));
+                        sequence.Join(cgButton.DOFade(1f, 1f))
+                            .OnComplete(() => button.interactable = true).SetLink(gameObject);
+                    }
+                    break;
+
+                case PerformType.GameOver:
+                    imgLogo.sprite = GetLogoSprite(PerformType.GameOver);
+                    imgButton.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0f);
+                    txtButton.text = "Restart";
+                    button.onClick.AddListener(() => ClickedButton(PerformType.GameOver));
+                    {
+                        sequence.Append(imgLogo.DOFade(0f, 0f));
+                        sequence.Append(imgBackground.DOFade(1f, 1f));
+                        sequence.Append(imgLogo.DOFade(1f, 1f));
+                        sequence.Append(imgButton.DOFade(1f, 1f));
+                        sequence.Join(cgButton.DOFade(1f, 1f))
+                            .OnComplete(() => button.interactable = true);
+                    }
+                    break;
+
+                case PerformType.GameClear:
+                    imgLogo.sprite = GetLogoSprite(PerformType.GameClear);
+                    imgButton.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0f);
+                    txtButton.text = "Restart";
+                    button.onClick.AddListener(() => ClickedButton(PerformType.GameClear));
+                    {
+                        sequence.Append(imgLogo.DOFade(0f, 0f));
+                        sequence.Append(imgBackground.DOFade(1f, 1f));
+                        sequence.Append(imgLogo.DOFade(1f, 1f));
+                        sequence.Append(imgButton.DOFade(1f, 1f));
+                        sequence.Join(cgButton.DOFade(1f, 1f))
+                            .OnComplete(() => button.interactable = true);
+                    }
+                    break;
             }
+
+            //ボタンを非活性化する
+            button.interactable = false;
 
             //演出が終了するまで待つ
             yield return new WaitUntil(() => isUIEffect == true);
@@ -174,116 +208,10 @@ namespace yamap
         }
 
         /// <summary>
-        /// ゲームオーバー演出を行う
-        /// </summary>
-        /// <returns>待ち時間</returns>
-        public IEnumerator PlayGameOver() 
-        {
-            //まだ演出が終了していない状態に切り替える
-            isUIEffect = false;
-
-            //背景を黒色に設定
-            imgBackground.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
-
-            //ロゴをゲームオーバーに設定
-            imgLogo.sprite = GetLogoSprite(LogoType.GameOver);
-
-            //ボタンを赤色に設定
-            imgButton.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0f);
-
-            //ボタンのテキストを「Restart」に設定
-            txtButton.text = "Restart";
-
-            //ボタンに登録されている処理を削除
-            button.onClick.RemoveAllListeners();
-
-            //ボタンが押された際の処理を設定
-            button.onClick.AddListener(() => ClickedButton(PerformType.GameOver));
-
-            //ボタンを非活性化する
-            button.interactable = false;
-
-            ////得点のキャンバスグループを一定時間かけて非表示にする
-            cgScore.DOFade(0f, 1f);
-
-            //Sequenceを作成
-            Sequence sequence = DOTween.Sequence();
-
-            //演出を行う
-            {
-                sequence.Append(imgLogo.DOFade(0f, 0f));
-                sequence.Append(imgBackground.DOFade(1f, 1f));
-                sequence.Append(imgLogo.DOFade(1f, 1f));
-                sequence.Append(imgButton.DOFade(1f, 1f));
-                sequence.Join(cgButton.DOFade(1f,1f))
-                    .OnComplete(() => button.interactable = true);
-            }
-
-            //演出が終わるまで待つ
-            yield return new WaitUntil(() => isUIEffect == true);
-
-            //まだ演出が終了していない状態に切り替える
-            isUIEffect = false;
-        }
-
-        /// <summary>
-        /// ゲームクリア演出を行う
-        /// </summary>
-        /// <returns>待ち時間</returns>
-        public IEnumerator PlayGameClear() 
-        {
-            //まだ演出が終了していない状態に切り替える
-            isUIEffect = false;
-
-            //背景を白色に設定
-            imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 0f);
-
-            //ロゴをゲームクリアに設定
-            imgLogo.sprite = GetLogoSprite(LogoType.GameClear);
-
-            //ボタンを黄色に設定
-            imgButton.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0f);
-
-            //ボタンのテキストを「Restart」に設定
-            txtButton.text = "Restart";
-
-            //ボタンに登録されている処理を削除
-            button.onClick.RemoveAllListeners();
-
-            //ボタンが押された際の処理を設定
-            button.onClick.AddListener(() => ClickedButton(PerformType.GameClear));
-
-            //ボタンを非活性化する
-            button.interactable = false;
-
-            //得点のテキストを一定時間かけて青色に変える
-            txtScore.DOColor(Color.blue, 2f);
-
-            //Sequenceを作成
-            Sequence sequence = DOTween.Sequence();
-
-            //演出を行う
-            {
-                sequence.Append(imgLogo.DOFade(0f, 0f));
-                sequence.Append(imgBackground.DOFade(1f, 1f));
-                sequence.Append(imgLogo.DOFade(1f, 1f));
-                sequence.Append(imgButton.DOFade(1f, 1f));
-                sequence.Join(cgButton.DOFade(1f, 1f))
-                    .OnComplete(() => button.interactable = true);
-            }
-
-            //ゲームオーバー演出が終わるまで待つ
-            yield return new WaitUntil(() => isUIEffect == true);
-
-            //まだ演出が終了していない状態に切り替える
-            isUIEffect = false;
-        }
-
-        /// <summary>
         /// 得点の表示を更新する準備を行う
         /// 従来の処理(UI 表示部分と、演出部分を分ける)
         /// </summary>
-        public void PrepareUpdateTxtScore() 
+        public void PrepareUpdateTxtScore()
         {
             //得点のテキストを設定する
             txtScore.text = GameData.instance.score.playerScore.ToString() + ":" + GameData.instance.score.enemyScore.ToString();
@@ -297,7 +225,7 @@ namespace yamap
         /// </summary>
         /// <param name="playerScore">プレイヤーの得点</param>
         /// <param name="enemyScore">エネミーの得点</param>
-        public void UpdateDisplayScoreObservable(int playerScore, int enemyScore) 
+        public void UpdateDisplayScoreObservable(int playerScore, int enemyScore)
         {
             //ReactivePropertyで購読している情報を受け取り、表示を更新する(View 側)
             txtScore.text = playerScore + " : " + enemyScore;
@@ -310,8 +238,8 @@ namespace yamap
         /// 得点更新時の演出を行う
         /// </summary>
         /// <returns>待ち時間</returns>
-        private IEnumerator PlayScoreEffect() 
-        {    
+        private IEnumerator PlayScoreEffect()
+        {
             //得点のキャンバスグループを一定時間かけて表示する
             cgScore.DOFade(1f, 0.25f);
 
@@ -319,7 +247,7 @@ namespace yamap
             yield return new WaitForSeconds(0.25f + GameData.instance.DisplayScoreTime);
 
             //プレイヤーが勝利したら
-            if (GameData.instance.score.playerScore == GameData.instance.MaxScore) 
+            if (GameData.instance.score.playerScore == GameData.instance.MaxScore)
             {
                 //以降の処理を行わない
                 yield break;

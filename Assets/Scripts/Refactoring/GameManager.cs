@@ -51,7 +51,7 @@ namespace yamap
             scoreManager.SetUpScoreManager(ballController);
 
             //ゲームスタート演出が終わるまで待つ
-            yield return uiManager.PlayGameStart();
+            yield return uiManager.PlayGamePerform(PerformType.GameStart);
 
             // コントローラーの活性化
             ActivateControllers(true);
@@ -161,7 +161,7 @@ namespace yamap
             SoundManager.instance.PlaySound(isGameOverPerformance ? SoundDataSO.SoundName.GameOverSE : SoundDataSO.SoundName.PlayerPointSE);
 
             //ゲーム終了演出を行う
-            yield return isGameOverPerformance ? uiManager.PlayGameOver() : uiManager.PlayGameClear();
+            yield return uiManager.PlayGamePerform(isGameOverPerformance ? PerformType.GameOver : PerformType.GameClear);
 
             //メインシーンを読み込む
             SceneManager.LoadScene("Main");

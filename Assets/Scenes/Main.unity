@@ -285,7 +285,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &53070975
 MonoBehaviour:
@@ -3142,7 +3142,7 @@ Transform:
   - {fileID: 1478470330}
   - {fileID: 359804332}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1012365609
 GameObject:
@@ -4392,7 +4392,7 @@ Transform:
   - {fileID: 1919107038}
   - {fileID: 957854674}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1289208613
 MonoBehaviour:
@@ -4762,11 +4762,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   logoDatasList:
-  - LogoType: 0
+  - performType: 0
     sprite: {fileID: 21300000, guid: b02bc35ceb5e40b4dbec0da13ea18e6e, type: 3}
-  - LogoType: 1
+  - performType: 1
     sprite: {fileID: 21300000, guid: 4aaa9a77d29682847a134d3b0858a7dd, type: 3}
-  - LogoType: 2
+  - performType: 2
     sprite: {fileID: 21300000, guid: e447601aae62ece419ec8e472d175ae5, type: 3}
   imgLogo: {fileID: 2007581305}
   imgBackground: {fileID: 618946848}
@@ -6261,7 +6261,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974770067}
-  m_LocalRotation: {x: 0.000000001080723, y: 0.998056, z: -0.06232441, w: 0.000000017306572}
+  m_LocalRotation: {x: -0.000000001080723, y: 0.998056, z: -0.06232441, w: -0.000000017306572}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
