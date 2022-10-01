@@ -78,8 +78,8 @@ namespace yamap
 
                 // ReactiveProperty を購読　その①(始めに覚える方法)
                 // Model として ScoreManager の代わりに GameData を利用しているが、これは、元の UpdateTxtScore メソッドの処理を活かしているため(メソッドに引数がないため)
-                GameData.instance.PlayerScore.Subscribe(_ => uiManager.UpdateTxtScore()).AddTo(this);
-                GameData.instance.EnemyScore.Subscribe(_ => uiManager.UpdateTxtScore()).AddTo(this);
+                GameData.instance.PlayerScore.Subscribe(_ => uiManager.PrepareUpdateTxtScore()).AddTo(this);
+                GameData.instance.EnemyScore.Subscribe(_ => uiManager.PrepareUpdateTxtScore()).AddTo(this);
 
 
                 // ReactiveProperty を購読　その②(難しいが、覚えたい方法。①の処理をコメントアウトすれば、同じように正常に動きます)
