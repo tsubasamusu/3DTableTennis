@@ -72,34 +72,46 @@ namespace yamap
             //まだ演出が終了していない状態に切り替える
             isUIEffect = false;
 
-            //ゲームクリア演出ではないなら
-            if (performType != PerformType.GameClear)
+            //得点に関する処理
             {
-                //得点のキャンバスグループを非表示にする
-                cgScore.alpha = 0f;
-            }
-            //ゲームクリア演出なら
-            else
-            {
-                //得点のテキストを一定時間かけて青色に変える
-                txtScore.DOColor(Color.blue, 2f);
+                //ゲームクリア演出なら
+                if (performType == PerformType.GameClear)
+                {
+                    //得点のテキストを一定時間かけて青色に変える
+                    txtScore.DOColor(Color.blue, 2f);
+                }
+                //ゲームクリア演出ではないなら
+                else
+                {
+                    //得点のキャンバスグループを非表示にする
+                    cgScore.alpha = 0f;
+                }
             }
 
-            //ゲームオーバー演出なら
-            if (performType == PerformType.GameOver)
+            //背景に関する処理
             {
-                //背景を黒色に設定
-                imgBackground.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
+                //ゲームオーバー演出なら
+                if (performType == PerformType.GameOver)
+                {
+                    //背景を黒色に設定
+                    imgBackground.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
+                }
+                //ゲームオーバー演出ではないなら
+                else
+                {
+                    //背景を白色に設定
+                    imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
+                }
             }
-            //ゲームオーバー演出ではないなら
-            else
-            {
-                //背景を白色に設定
-                imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
-            }
+
+            //ロゴのスプライトを設定
+            imgLogo.sprite = GetLogoSprite(performType);
 
             //ボタンに登録されている処理を削除
             button.onClick.RemoveAllListeners();
+
+            //ボタンに処理を追加
+            button.onClick.AddListener(() => ClickedButton(performType));
 
             //Sequenceを作成
             Sequence sequence = DOTween.Sequence();
@@ -107,11 +119,9 @@ namespace yamap
             //演出の種類によって処理を変更
             switch (performType)
             {
-                case PerformType.GameStart:
-                    imgLogo.sprite = GetLogoSprite(PerformType.GameStart);
-                    imgButton.color = new Color(Color.blue.r, Color.blue.g, Color.blue.b, 0f);
-                    txtButton.text = "Start";
-                    button.onClick.AddListener(() => ClickedButton(PerformType.GameStart));
+                case PerformType.GameStart://ゲームスタート演出なら
+                    imgButton.color = new Color(Color.blue.r, Color.blue.g, Color.blue.b, 0f);//ボタンの色を設定
+                    txtButton.text = "Start";//ボタンのテキストを設定
                     {
                         sequence.Append(imgLogo.DOFade(0f, 0f));
                         sequence.Append(imgLogo.DOFade(1f, 1f));
@@ -121,11 +131,9 @@ namespace yamap
                     }
                     break;
 
-                case PerformType.GameOver:
-                    imgLogo.sprite = GetLogoSprite(PerformType.GameOver);
-                    imgButton.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0f);
-                    txtButton.text = "Restart";
-                    button.onClick.AddListener(() => ClickedButton(PerformType.GameOver));
+                case PerformType.GameOver://ゲームオーバー演出なら
+                    imgButton.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0f);//ボタンの色を設定
+                    txtButton.text = "Restart";//ボタンのテキストを設定
                     {
                         sequence.Append(imgLogo.DOFade(0f, 0f));
                         sequence.Append(imgBackground.DOFade(1f, 1f));
@@ -136,11 +144,9 @@ namespace yamap
                     }
                     break;
 
-                case PerformType.GameClear:
-                    imgLogo.sprite = GetLogoSprite(PerformType.GameClear);
-                    imgButton.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0f);
-                    txtButton.text = "Restart";
-                    button.onClick.AddListener(() => ClickedButton(PerformType.GameClear));
+                case PerformType.GameClear://ゲームクリア演出なら
+                    imgButton.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0f);//ボタンの色を設定
+                    txtButton.text = "Restart";//ボタンのテキストを設定
                     {
                         sequence.Append(imgLogo.DOFade(0f, 0f));
                         sequence.Append(imgBackground.DOFade(1f, 1f));
