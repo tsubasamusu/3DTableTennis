@@ -1,23 +1,27 @@
+using UniRx;//UniRxを使用
 using UnityEngine;
-using UniRx;        // 宣言追加
 
-namespace yamap {
-
+namespace yamap 
+{
     /// <summary>
     /// ゲーム全体のデータを管理する
     /// </summary>
-    public class GameData : MonoBehaviour {
-
+    public class GameData : MonoBehaviour 
+    {
         public static GameData instance;//インスタンス
 
         /// <summary>
         /// Startメソッドより前に呼び出される
         /// </summary>
-        private void Awake() {
+        private void Awake()
+        {
             //以下、シングルトンに必須の記述
-            if (instance == null) {
+            if (instance == null)
+            {
                 instance = this;
-            } else {
+            }
+            else
+            {
                 Destroy(gameObject);
             }
         }
@@ -55,6 +59,7 @@ namespace yamap {
         [HideInInspector]
         public (int playerScore, int enemyScore) score;//得点
 
+        //TODO:UniRx確認
 
         // ReactiveProperty　(Model)
         // その①の実装時に使う
