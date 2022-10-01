@@ -1,25 +1,29 @@
 using UnityEngine;
 
-namespace yamap {
-
+namespace yamap 
+{
     /// <summary>
     /// PlayerControllerクラスとEnemyControllerクラスの親クラス
     /// </summary>
-    public class ControllerBase : MonoBehaviour {
-
+    public class ControllerBase : MonoBehaviour 
+    {
         protected CharacterController charaController;//CharacterController
 
         protected RacketController racketController;//RacketController
 
+        protected BallController ballController;//BallController
+
         protected Vector3 firstPos;//初期位置
-        protected BallController ballController;
-        protected OwnerType ownerType;
+       
+        protected OwnerType ownerType;//所有者の種類
 
 
         /// <summary>
         /// ControllerBaseの初期設定を行う
         /// </summary>
-        public virtual void SetUpControllerBase(BallController ballController) {  // virtual
+        /// <param name="ballController">BallController</param>
+        public virtual void SetUpControllerBase(BallController ballController) 
+        { 
             //CharacterControllerを取得
             charaController = GetComponent<CharacterController>();
 
@@ -32,18 +36,21 @@ namespace yamap {
             //初期位置を取得
             firstPos = transform.position;
 
+            //BallControllerを取得
             this.ballController = ballController;
         }
 
         /// <summary>
         /// 毎フレーム呼び出される
         /// </summary>
-        private void Update() {
+        private void Update() 
+        {
             //キャラクターの向きを設定する
             SetCharaDirection();
 
             //ラケットを振っている最中なら
-            if (!racketController.IsIdle) {
+            if (!racketController.IsIdle) 
+            {
                 //以降の処理を行わない
                 return;
             }
@@ -58,7 +65,8 @@ namespace yamap {
         /// <summary>
         /// 移動する
         /// </summary>
-        private void Move() {
+        private void Move() 
+        {
             //移動を実行する
             charaController.Move(GetMoveDir() * Time.deltaTime * GameData.instance.MoveSpeed + (Vector3.down * GameData.instance.Gravity));
         }
@@ -66,8 +74,9 @@ namespace yamap {
         /// <summary>
         /// 移動方向を取得する
         /// </summary>
-        /// <returns></returns>
-        protected virtual Vector3 GetMoveDir() {
+        /// <returns>移動方向</returns>
+        protected virtual Vector3 GetMoveDir() 
+        {
             //各子クラスで処理を記述
 
             //仮
@@ -77,14 +86,16 @@ namespace yamap {
         /// <summary>
         /// ラケットを制御する（Updateメソッドで呼び出され続ける）
         /// </summary>
-        protected virtual void ControlRacket() {
+        protected virtual void ControlRacket() 
+        {
             //各子クラスで処理を記述
         }
 
         /// <summary>
         /// キャラクターの向きを設定する（Updateメソッドで呼び出され続ける）
         /// </summary>
-        protected virtual void SetCharaDirection() {
+        protected virtual void SetCharaDirection() 
+        {
             //各子クラスで処理を記述
         }
     }
