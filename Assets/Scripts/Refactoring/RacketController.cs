@@ -1,13 +1,13 @@
 using DG.Tweening;//DOTweenを使用
 using UnityEngine;
 
-namespace yamap {
-
+namespace yamap 
+{
     /// <summary>
     /// ラケットの動きを制御する
     /// </summary>
-    public class RacketController : MonoBehaviour {
-
+    public class RacketController : MonoBehaviour 
+    {
         [SerializeField]
         private OwnerType ownerType;//ラケットの所有者
 
@@ -19,7 +19,9 @@ namespace yamap {
 
         private SphereCollider sphereCollider;//SphereCollider
 
-        //所有者取得用
+        /// <summary>
+        /// ラケットの所有者の取得用
+        /// </summary>
         public OwnerType OwnerType { get => ownerType; }
 
         /// <summary>
@@ -30,7 +32,8 @@ namespace yamap {
         /// <summary>
         /// RacketControllerの初期設定を行う
         /// </summary>
-        public void SetUpRacketController() {
+        public void SetUpRacketController() 
+        {
             //通常時のラケットの座標を取得
             normalLocalPos = transform.localPosition;
 
@@ -41,7 +44,8 @@ namespace yamap {
             isIdle = true;
 
             //BoxColliderの取得に成功したら
-            if (TryGetComponent(out sphereCollider)) {
+            if (TryGetComponent(out sphereCollider)) 
+            {
                 //BoxColliderを非活性化する
                 sphereCollider.enabled = false;
             }
@@ -50,7 +54,8 @@ namespace yamap {
         /// <summary>
         /// ラケットを基本状態に戻す
         /// </summary>
-        public void SetNormalCondition() {
+        private void SetNormalCondition() 
+        {
             //BoxColliderを非活性化する
             sphereCollider.enabled = false;
 
@@ -68,7 +73,8 @@ namespace yamap {
         /// ドライブする
         /// </summary>
         /// <param name="isForehandDrive">フォアハンドドライブかどうか</param>
-        public void Drive(bool isForehandDrive) {
+        public void Drive(bool isForehandDrive) 
+        {
             //ラケットを振っている状態に切り替える
             isIdle = false;
 
