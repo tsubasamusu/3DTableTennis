@@ -83,21 +83,8 @@ public class SoundManager : MonoBehaviour
         //音再生用のAudioSourceの配列の要素を1つずつ取り出す
         foreach (AudioSource source in audioSources)
         {
-            //TODO:なぜゲーム終了時にGameData.instanceがnullになるのか？
-            {
-                //nullと表示される
-                Debug.Log(GameData.instance);
-
-                //応急処置
-                if (GameData.instance == null)
-                {
-                    GameData gameData = new();
-                    GameData.instance = gameData;
-                }
-            }
-
             //音をフェードアウトさせる
-            source.DOFade(0f, GameData.instance.FadeOutTime)
+            source.DOFade(0f, yamap.GameData.instance.FadeOutTime)
 
                 //音のフェードアウトが終ったら
                 .OnComplete(() =>
