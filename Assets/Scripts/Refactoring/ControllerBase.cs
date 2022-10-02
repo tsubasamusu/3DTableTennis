@@ -55,11 +55,11 @@ namespace yamap
                 return;
             }
 
-            //ˆÚ“®‚·‚é
-            Move();
-
             //ƒ‰ƒPƒbƒg‚ğ§Œä‚·‚é
             ControlRacket();
+
+            //ˆÚ“®‚·‚é
+            Move();
         }
 
         /// <summary>

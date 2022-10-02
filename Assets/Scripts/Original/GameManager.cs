@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.StopSound();
     }
 
-    //TODO:リファクタリングの段階で、以降の監視処理をUniRxを使用して書き換える
+    //リファクタリングの段階で、以降の監視処理をUniRxを使用して書き換える
 
     private bool flag;//重複処理防止用
 

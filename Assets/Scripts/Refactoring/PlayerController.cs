@@ -26,7 +26,7 @@ namespace yamap
         /// <param name="ballController">BallController</param>
         public override void SetUpControllerBase(BallController ballController) 
         {
-            //TODO:これは何？
+            //親クラスのSetUpControllerBaseメソッドを呼び出す
             base.SetUpControllerBase(ballController);
 
             //リセットする
