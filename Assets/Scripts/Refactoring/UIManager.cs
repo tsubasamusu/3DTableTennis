@@ -52,8 +52,6 @@ namespace yamap
         [SerializeField]
         private Text txtMessage;//メッセージのテキスト
 
-        private bool isUIEffect;//演出終了判定用
-
         /// <summary>
         /// ロゴのスプライトを取得する
         /// </summary>
@@ -73,7 +71,7 @@ namespace yamap
         public IEnumerator PlayGamePerform(PerformType performType)
         {
             //まだ演出が終了していない状態に切り替える
-            isUIEffect = false;
+            bool isUIEffect = false;
 
             //メッセージのテキストを空にする
             txtMessage.text=String.Empty;
@@ -85,7 +83,42 @@ namespace yamap
             button.onClick.RemoveAllListeners();
 
             //ボタンに処理を追加
-            button.onClick.AddListener(() => ClickedButton(performType));
+            button.onClick.AddListener(() => ClickedButton());
+
+            //ボタンが押された際の処理
+            void ClickedButton()
+            {
+                //ボタンを非活性化する
+                button.interactable = false;
+
+                //演出の種類に応じて処理を変更
+                switch (performType)
+                {
+                    case PerformType.GameStart://ゲームスタート演出なら
+                        imgBackground.DOFade(0f, 1f);//背景を一定時間かけて非表示にする
+                        SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameStartSE);//効果音を再生
+                        break;
+
+                    case PerformType.GameOver://ゲームオーバー演出なら
+                        imgBackground.DOColor(Color.white, 1f);//背景を一定時間かけて白色に変化させる
+                        SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameRestartSE);//効果音を再生
+                        break;
+
+                    case PerformType.GameClear://ゲームクリア演出なら
+                        cgScore.DOFade(0f, 1f);//得点のキャンバスグループを一定時間かけて非表示にする
+                        SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameRestartSE);//効果音を再生
+                        break;
+                }
+
+                //ロゴを一定時間かけて非表示にする
+                imgLogo.DOFade(0f, 1f);
+
+                //ボタンのキャンバスグループを一定時間かけて非表示にする
+                cgButton.DOFade(0f, 1f)
+
+                    //演出が終了した状態に切り替える
+                    .OnComplete(() => isUIEffect = true);
+            }
 
             //Sequenceを作成
             Sequence sequence = DOTween.Sequence();
@@ -130,47 +163,6 @@ namespace yamap
 
             //演出が終了するまで待つ
             yield return new WaitUntil(() => isUIEffect == true);
-
-            //まだ演出が終了していない状態に切り替える
-            isUIEffect = false;
-        }
-
-        /// <summary>
-        /// ボタンが押された際の処理
-        /// </summary>
-        /// <param name="performType">演出の種類</param>
-        private void ClickedButton(PerformType performType)
-        {
-            //ボタンを非活性化する
-            button.interactable = false;
-
-            //演出の種類に応じて処理を変更
-            switch (performType)
-            {
-                case PerformType.GameStart://ゲームスタート演出なら
-                    imgBackground.DOFade(0f, 1f);//背景を一定時間かけて非表示にする
-                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameStartSE);//効果音を再生
-                    break;
-
-                case PerformType.GameOver://ゲームオーバー演出なら
-                    imgBackground.DOColor(Color.white, 1f);//背景を一定時間かけて白色に変化させる
-                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameRestartSE);//効果音を再生
-                    break;
-
-                case PerformType.GameClear://ゲームクリア演出なら
-                    cgScore.DOFade(0f, 1f);//得点のキャンバスグループを一定時間かけて非表示にする
-                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.GameRestartSE);//効果音を再生
-                    break;
-            }
-
-            //ロゴを一定時間かけて非表示にする
-            imgLogo.DOFade(0f, 1f);
-
-            //ボタンのキャンバスグループを一定時間かけて非表示にする
-            cgButton.DOFade(0f, 1f)
-
-                //演出が終了した状態に切り替える
-                .OnComplete(() => isUIEffect = true);
         }
 
         /// <summary>

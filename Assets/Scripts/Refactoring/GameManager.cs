@@ -124,11 +124,11 @@ namespace yamap
                 //ControllerBase‚Ì‰Šúİ’è‚ğs‚¤    
                 controllersList[i].SetUpControllerBase(ballController);
 
-                //‚Ü‚¾PlayerController‚ğæ“¾‚µ‚Ä‚¢‚È‚¢‚©‚ÂAPlayerController‚Ìæ“¾‚É¬Œ÷‚µ‚½‚ç
-                if (playerController == null && controllersList[i].TryGetComponent(out playerController)) 
+                //‚Ü‚¾PlayerController‚ğæ“¾‚µ‚Ä‚¢‚È‚¢‚È‚ç
+                if (playerController == null) 
                 {
-                    //Œ‹‰Ê‚ğ•ñ
-                    Debug.Log("PlayerController‚Ìæ“¾‚É¬Œ÷");
+                    //PlayerController‚ğæ“¾
+                    playerController = controllersList[i].GetComponent<PlayerController>();
                 }
             }
 

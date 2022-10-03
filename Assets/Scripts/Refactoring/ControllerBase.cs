@@ -17,7 +17,6 @@ namespace yamap
        
         protected OwnerType ownerType;//Š—LÒ‚Ìí—Ş
 
-
         /// <summary>
         /// ControllerBase‚Ì‰Šúİ’è‚ğs‚¤
         /// </summary>

@@ -25,9 +25,8 @@ public class BoundPoint : MonoBehaviour
     /// 仮想の跳ねる位置を取得する
     /// </summary>
     /// <param name="ballTran">ボールの位置情報</param>
-    /// <param name="angleY">ボールのy角度</param>
     /// <returns>跳ねる位置の仮想位置/returns>
-    public Vector3 GetVirtualBoundPointPos(Transform ballTran, float angleY)
+    public Vector3 GetVirtualBoundPointPos(Transform ballTran)
     {
         //仮想位置の親をボールに設定
         virtualBoundPointTran.SetParent(ballTran);

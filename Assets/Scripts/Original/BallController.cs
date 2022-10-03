@@ -212,7 +212,7 @@ public class BallController : MonoBehaviour
             Vector3 boundPos = (currentOwner == OwnerType.Player ? playerBoundPoint : enemyBoundPoint)
 
                 //仮想の跳ねる位置を取得
-                .GetVirtualBoundPointPos(transform, racketController.transform.root.transform.eulerAngles.y);
+                .GetVirtualBoundPointPos(transform);
 
             //ボールを打つ
             ShotBall(boundPos);
